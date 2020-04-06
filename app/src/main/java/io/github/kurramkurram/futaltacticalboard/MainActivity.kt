@@ -1,71 +1,47 @@
 package io.github.kurramkurram.futaltacticalboard
 
-import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
-import android.view.Gravity
-import android.view.WindowManager
+import android.provider.Settings
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var mWindowManager: WindowManager
-    private var mPlayersBlue = arrayOfNulls<Player>(5)
-    private var mPlayersRed = arrayOfNulls<Player>(5)
-
     companion object {
-        val PLAYER_RED_ARRAY = arrayOf(
-            R.drawable.player_red_1, R.drawable.player_red_2, R.drawable.player_red_3,
-            R.drawable.player_red_4, R.drawable.player_red_5
-        )
-        val PLAYER_BLUE_ARRAY = arrayOf(
-            R.drawable.player_blue_1, R.drawable.player_blue_2, R.drawable.player_blue_3,
-            R.drawable.player_blue_4, R.drawable.player_blue_5
-        )
+        const val REQUEST_SYSTEM_OVERLAY_CODE = 100
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        mWindowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
-
-        for (i in 0..4) {
-            val player = Player(
-                applicationContext,
-                PLAYER_BLUE_ARRAY[i],
-                "",
-                mWindowManager,
-                arrayOf(150 * i, 150),
-                Gravity.TOP
-            )
-            player.add()
-            mPlayersBlue[i] = player
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            if (!Settings.canDrawOverlays(applicationContext)) {
+                val intent = Intent(
+                    Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse(
+                        "package:$packageName"
+                    )
+                )
+                startActivityForResult(intent, REQUEST_SYSTEM_OVERLAY_CODE)
+                return
+            }
         }
-
-        for (i in 0..4) {
-            val player = Player(
-                applicationContext,
-                PLAYER_RED_ARRAY[i],
-                "",
-                mWindowManager,
-                arrayOf(150 * i, 0),
-                Gravity.BOTTOM
-            )
-            player.add()
-            mPlayersRed[i] = player
-        }
+        val intent = Intent(this, FutsalCortActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
-    override fun onPause() {
-        super.onPause()
-        if (mPlayersBlue[0]!!.isAttatchedToWindow()) {
-            for (p in mPlayersBlue) {
-                p!!.remove()
-            }
-            for (p in mPlayersRed) {
-                p!!.remove()
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_SYSTEM_OVERLAY_CODE) {
+            if (!Settings.canDrawOverlays(applicationContext)) {
+                finish()
+                return
             }
         }
 
+        val intent = Intent(this, FutsalCortActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }
