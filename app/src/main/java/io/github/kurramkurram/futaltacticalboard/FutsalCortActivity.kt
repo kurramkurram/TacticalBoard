@@ -56,7 +56,6 @@ class FutsalCortActivity : AppCompatActivity() {
             player.add()
             mPlayersRed[i] = player
         }
-
     }
 
     override fun onPause() {
