@@ -55,10 +55,12 @@ class Player(
         mWindowManager.updateViewLayout(mPlayer, mParams)
     }
 
-    fun isAttatchedToWindow() = mPlayer.isAttachedToWindow
+    private fun isAttachedToWindow() = mPlayer.isAttachedToWindow
 
     fun remove() {
-        mWindowManager.removeView(mPlayer)
+        if (isAttachedToWindow()) {
+            mWindowManager.removeView(mPlayer)
+        }
     }
 
     fun setName(name: String) {

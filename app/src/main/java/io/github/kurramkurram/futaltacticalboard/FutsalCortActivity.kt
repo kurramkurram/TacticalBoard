@@ -30,43 +30,60 @@ class FutsalCortActivity : AppCompatActivity() {
         Log.d("FutsalCortActivity", "#onCreate")
 
         mWindowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
+    }
 
-        for (i in 0..4) {
-            val player = Player(
-                applicationContext,
-                PLAYER_BLUE_ARRAY[i],
-                "",
-                mWindowManager,
-                arrayOf(150 * i, 150),
-                Gravity.TOP
-            )
-            player.add()
-            mPlayersBlue[i] = player
-        }
+    override fun onResume() {
+        super.onResume()
 
-        for (i in 0..4) {
-            val player = Player(
-                applicationContext,
-                PLAYER_RED_ARRAY[i],
-                "",
-                mWindowManager,
-                arrayOf(150 * i, 0),
-                Gravity.BOTTOM
-            )
-            player.add()
-            mPlayersRed[i] = player
+        if (mPlayersBlue[0] == null) {
+            for (i in 0..4) {
+                val player = Player(
+                    applicationContext,
+                    PLAYER_BLUE_ARRAY[i],
+                    "",
+                    mWindowManager,
+                    arrayOf(150 * i, 150),
+                    Gravity.TOP
+                )
+                player.add()
+                mPlayersBlue[i] = player
+            }
+
+            for (i in 0..4) {
+                val player = Player(
+                    applicationContext,
+                    PLAYER_RED_ARRAY[i],
+                    "",
+                    mWindowManager,
+                    arrayOf(150 * i, 0),
+                    Gravity.BOTTOM
+                )
+                player.add()
+                mPlayersRed[i] = player
+            }
+        } else {
+            for (p in mPlayersBlue) {
+                p!!.add()
+            }
+            for (p in mPlayersRed) {
+                p!!.add()
+            }
         }
     }
 
     override fun onPause() {
         super.onPause()
-        if (mPlayersBlue[0]!!.isAttatchedToWindow()) {
-            for (p in mPlayersBlue) {
-                p!!.remove()
-            }
-            for (p in mPlayersRed) {
-                p!!.remove()
-            }
+        for (p in mPlayersBlue) {
+            p!!.remove()
         }
+        for (p in mPlayersRed) {
+            p!!.remove()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mPlayersBlue = arrayOfNulls(5)
+        mPlayersRed = arrayOfNulls(5)
     }
 }
