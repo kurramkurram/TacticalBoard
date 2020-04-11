@@ -42,7 +42,7 @@ class FutsalCortActivity : AppCompatActivity() {
                     PLAYER_BLUE_ARRAY[i],
                     "",
                     mWindowManager,
-                    arrayOf(150 * i, 150),
+                    arrayOf(150 * i, 0),
                     Gravity.TOP
                 )
                 player.add()
