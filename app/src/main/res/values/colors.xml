@@ -5,4 +5,8 @@
     <color name="colorAccent">#D81B60</color>
 
     <color name="ic_launcher_background">#92BED7</color>
+    <color name="tactical_board_color_main">#92BED7</color>
+    <color name="tactical_board_color_gray">#676767</color>
+    <color name="tactical_board_color_cream">#FFFDD0</color>
+    <color name="tactical_board_color_gym">#FF8C00</color>
 </resources>

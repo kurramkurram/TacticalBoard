@@ -1,4 +1,4 @@
-package io.github.kurramkurram.futaltacticalboard
+package io.github.kurramkurram.futaltacticalboard.ui
 
 import android.content.Intent
 import android.net.Uri
@@ -22,7 +22,10 @@ class MainActivity : AppCompatActivity() {
                         "package:$packageName"
                     )
                 )
-                startActivityForResult(intent, REQUEST_SYSTEM_OVERLAY_CODE)
+                startActivityForResult(
+                    intent,
+                    REQUEST_SYSTEM_OVERLAY_CODE
+                )
                 return
             }
         }
