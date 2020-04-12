@@ -8,4 +8,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="SettingCortColor">
+        <item name="android:layout_height">@dimen/setting_cort_color_wh</item>
+        <item name="android:layout_width">@dimen/setting_cort_color_wh</item>
+        <item name="android:layout_margin">@dimen/setting_cort_color_margin</item>
+    </style>
+
 </resources>

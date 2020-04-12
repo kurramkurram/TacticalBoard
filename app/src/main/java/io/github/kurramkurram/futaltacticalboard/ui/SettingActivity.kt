@@ -1,5 +1,6 @@
 package io.github.kurramkurram.futaltacticalboard.ui
 
+import android.content.Context
 import android.os.Bundle
 
 import androidx.appcompat.app.AppCompatActivity
@@ -25,13 +26,24 @@ class SettingActivity : AppCompatActivity() {
         setContentView(R.layout.activity_setting)
 
         val pagerAdapter =
-            SettingPagerAdapter(mFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT)
+            SettingPagerAdapter(
+                mFragmentManager,
+                BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT,
+                applicationContext
+            )
         val pager = findViewById<ViewPager>(R.id.setting_view_pager)
         pager.adapter = pagerAdapter
     }
 
     class SettingPagerAdapter(fm: FragmentManager, behavior: Int) :
         FragmentStatePagerAdapter(fm, behavior) {
+
+        private lateinit var mContext: Context
+
+        constructor(fm: FragmentManager, behavior: Int, context: Context) : this(fm, behavior) {
+            mContext = context
+        }
+
 
         override fun getItem(position: Int): Fragment {
             return when (position) {
@@ -45,9 +57,9 @@ class SettingActivity : AppCompatActivity() {
 
         override fun getPageTitle(position: Int): CharSequence? {
             return when (position) {
-                SETTING_CORT_EDIT -> "CORT"
-                SETTING_TEAM_EDIT -> "TEAM"
-                else -> "OTHERS"
+                SETTING_CORT_EDIT -> mContext.resources.getString(R.string.setting_tab_name_1)
+                SETTING_TEAM_EDIT -> mContext.resources.getString(R.string.setting_tab_name_2)
+                else -> mContext.resources.getString(R.string.setting_tab_name_3)
             }
         }
     }
