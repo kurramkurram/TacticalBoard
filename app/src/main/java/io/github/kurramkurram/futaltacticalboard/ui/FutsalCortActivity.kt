@@ -14,7 +14,7 @@ import io.github.kurramkurram.futaltacticalboard.R
 class FutsalCortActivity : AppCompatActivity(), View.OnClickListener {
 
     companion object {
-        public val PLAYER_RED_ARRAY = arrayOf(
+        val PLAYER_RED_ARRAY = arrayOf(
             R.drawable.player_red_1,
             R.drawable.player_red_2,
             R.drawable.player_red_3,

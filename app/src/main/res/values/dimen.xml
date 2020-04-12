@@ -18,6 +18,8 @@
     <dimen name="setting_team_edit_title_text_size">20sp</dimen>
     <dimen name="setting_team_edit_title_text_width">200dp</dimen>
     <dimen name="setting_team_edit_title_padding">20dp</dimen>
+    <dimen name="setting_team_edit_icon_padding">10dp</dimen>
+    <dimen name="setting_team_edit_input_form_margin_e">10dp</dimen>
 
     <dimen name="setting_team_edit_team_padding">20dp</dimen>
 
