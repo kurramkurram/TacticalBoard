@@ -15,6 +15,7 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/setting_team_edit_title_padding"
             android:text="@string/setting_team_edit_title"
+            android:textColor="@color/tactical_board_default_text_color"
             android:textSize="@dimen/setting_team_edit_title_text_size" />
 
         <ImageView

@@ -18,6 +18,7 @@
             android:paddingEnd="@dimen/setting_cort_edit_title_padding"
             android:paddingBottom="@dimen/setting_cort_edit_title_padding_bottom"
             android:text="@string/setting_cort_edit_cort_color_title"
+            android:textColor="@color/tactical_board_default_text_color"
             android:textSize="@dimen/setting_cort_edit_title_text_size" />
 
         <LinearLayout
@@ -65,6 +66,7 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/setting_cort_edit_title_padding"
             android:text="@string/setting_cort_edit_half_cort_title"
+            android:textColor="@color/tactical_board_default_text_color"
             android:textSize="@dimen/setting_cort_edit_title_text_size" />
 
         <Switch
