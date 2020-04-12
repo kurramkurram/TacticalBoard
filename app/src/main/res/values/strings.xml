@@ -1,11 +1,12 @@
 <resources>
     <string name="app_name">FutalTacticalBoard</string>
 
-    <string name="setting_cort_edit_cort_color_title">CORT COLOR: </string>
-    <string name="setting_cort_edit_half_cort_title">HALF CORT: </string>
+    <string name="setting_cort_edit_cort_color_title">CORT COLOR : </string>
+    <string name="setting_cort_edit_half_cort_title">HALF CORT : </string>
 
-    <string name="setting_team_edit_title">TEAM EDIT: </string>
-
+    <string name="setting_team_edit_title">TEAM EDIT : </string>
+    <string name="setting_team_edit_player_number_title">NUMBER : </string>
+    <string name="setting_team_edit_player_name_title">PLAYER NAME : </string>
 
     <string name="setting_tab_name_1">CORT</string>
     <string name="setting_tab_name_2">TEAM</string>

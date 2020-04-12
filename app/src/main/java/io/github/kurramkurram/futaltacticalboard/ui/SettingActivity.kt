@@ -44,7 +44,6 @@ class SettingActivity : AppCompatActivity() {
             mContext = context
         }
 
-
         override fun getItem(position: Int): Fragment {
             return when (position) {
                 SETTING_CORT_EDIT -> SettingCortEditFragment()

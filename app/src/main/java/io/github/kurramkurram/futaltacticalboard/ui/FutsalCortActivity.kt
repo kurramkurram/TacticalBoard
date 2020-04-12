@@ -13,11 +13,6 @@ import io.github.kurramkurram.futaltacticalboard.R
 
 class FutsalCortActivity : AppCompatActivity(), View.OnClickListener {
 
-
-    private lateinit var mWindowManager: WindowManager
-    private var mPlayersBlue = arrayOfNulls<Player>(5)
-    private var mPlayersRed = arrayOfNulls<Player>(5)
-
     companion object {
         val PLAYER_RED_ARRAY = arrayOf(
             R.drawable.player_red_1,
@@ -35,6 +30,10 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener {
         )
     }
 
+    private lateinit var mWindowManager: WindowManager
+    private var mPlayersBlue = arrayOfNulls<Player>(PLAYER_BLUE_ARRAY.size)
+    private var mPlayersRed = arrayOfNulls<Player>(PLAYER_RED_ARRAY.size)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -49,7 +48,7 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener {
         super.onResume()
 
         if (mPlayersBlue[0] == null) {
-            for (i in 0..4) {
+            for (i in PLAYER_BLUE_ARRAY.indices) {
                 val player = Player(
                     applicationContext,
                     PLAYER_BLUE_ARRAY[i],
@@ -62,7 +61,7 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener {
                 mPlayersBlue[i] = player
             }
 
-            for (i in 0..4) {
+            for (i in PLAYER_RED_ARRAY.indices) {
                 val player = Player(
                     applicationContext,
                     PLAYER_RED_ARRAY[i],
@@ -96,8 +95,8 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onDestroy() {
         super.onDestroy()
-        mPlayersBlue = arrayOfNulls(5)
-        mPlayersRed = arrayOfNulls(5)
+        mPlayersBlue = arrayOfNulls(PLAYER_BLUE_ARRAY.size)
+        mPlayersRed = arrayOfNulls(PLAYER_RED_ARRAY.size)
     }
 
 

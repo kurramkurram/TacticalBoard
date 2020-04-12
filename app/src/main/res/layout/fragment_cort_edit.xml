@@ -25,24 +25,28 @@
             android:layout_height="wrap_content">
 
             <View
+                android:id="@+id/setting_cort_color_0"
                 android:layout_width="@dimen/setting_cort_color_wh"
                 android:layout_height="@dimen/setting_cort_color_wh"
                 android:layout_margin="@dimen/setting_cort_color_margin"
                 android:background="@color/tactical_board_color_main" />
 
             <View
+                android:id="@+id/setting_cort_color_1"
                 android:layout_width="@dimen/setting_cort_color_wh"
                 android:layout_height="@dimen/setting_cort_color_wh"
                 android:layout_margin="@dimen/setting_cort_color_margin"
                 android:background="@color/tactical_board_color_gray" />
 
             <View
+                android:id="@+id/setting_cort_color_2"
                 android:layout_width="@dimen/setting_cort_color_wh"
                 android:layout_height="@dimen/setting_cort_color_wh"
                 android:layout_margin="@dimen/setting_cort_color_margin"
                 android:background="@color/tactical_board_color_cream" />
 
             <View
+                android:id="@+id/setting_cort_color_3"
                 android:layout_width="@dimen/setting_cort_color_wh"
                 android:layout_height="@dimen/setting_cort_color_wh"
                 android:layout_margin="@dimen/setting_cort_color_margin"
