@@ -57,6 +57,7 @@
             <Spinner
                 android:id="@+id/player_number_spinner"
                 android:layout_width="wrap_content"
+                android:spinnerMode="dropdown"
                 android:layout_height="wrap_content" />
 
         </LinearLayout>
