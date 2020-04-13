@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Switch
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
+import io.github.kurramkurram.futaltacticalboard.Preference
 import io.github.kurramkurram.futaltacticalboard.R
 
 class SettingCortEditFragment : Fragment(), View.OnClickListener {
@@ -50,11 +51,10 @@ class SettingCortEditFragment : Fragment(), View.OnClickListener {
             val viewPager = activity!!.findViewById<ViewPager>(R.id.setting_view_pager)
             val index = CORT_COLOR_ARRAY.indexOf(id)
             viewPager.setBackgroundResource(CORT_BACKGROUND_COLOR_ARRAY[index])
-            // TODO:状態保存
+            Preference.set(context!!, Preference.KEY_BACKGROUND_RESOURCE_INDEX, index)
         } else {
-
-            // TODO:状態保存
             val isHalf = mSwitch.isChecked
+            Preference.set(context!!, Preference.KEY_HALF_CORT, isHalf)
         }
     }
 }

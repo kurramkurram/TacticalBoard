@@ -8,6 +8,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
+import io.github.kurramkurram.futaltacticalboard.Preference
 import io.github.kurramkurram.futaltacticalboard.R
 
 class SettingTeamEditFragment : Fragment(), View.OnClickListener {
@@ -57,14 +58,25 @@ class SettingTeamEditFragment : Fragment(), View.OnClickListener {
             mPlayerIcons[i] = view.findViewById(PLAYER_ICON_IDS[i])
         }
 
-        for (i in PLAYER_ICON_IDS.indices) {
+        for (i in PLAYER_EDIT_TEXT_IDS.indices) {
             mPlayerEditTexts[i] = view.findViewById(PLAYER_EDIT_TEXT_IDS[i])
         }
     }
 
     override fun onPause() {
         super.onPause()
-        // TODO：状態保存
+        var colorName = Preference.KEY_PLAYER_NAME_COLOR_BLUE
+        if (!mTeamBlue.isEnabled) { // 赤が無効の時、赤を編集中
+            colorName = Preference.KEY_PLAYER_NAME_COLOR_RED
+        }
+
+        for ((count, name) in mPlayerEditTexts.withIndex()) {
+            Preference.set(
+                context!!,
+                Preference.KEY_PLAYER_NAME_PREFIX + colorName + count + 1,
+                name!!.text.toString()
+            )
+        }
     }
 
     override fun onClick(v: View?) {
@@ -86,8 +98,18 @@ class SettingTeamEditFragment : Fragment(), View.OnClickListener {
     }
 
     private fun editPlayerName(array: Array<Int>) {
-        // TODO：状態保存
+        var beforeColorName = Preference.KEY_PLAYER_NAME_COLOR_BLUE
+        if (FutsalCortActivity.PLAYER_RED_ARRAY.contentEquals(array)) {
+            beforeColorName = Preference.KEY_PLAYER_NAME_COLOR_RED
+        }
 
+        for ((count, name) in mPlayerEditTexts.withIndex()) {
+            Preference.set(
+                context!!,
+                Preference.KEY_PLAYER_NAME_PREFIX + beforeColorName + count + 1,
+                name!!.text.toString()
+            )
+        }
 
         for ((count, image) in mPlayerIcons.withIndex()) {
             image!!.setImageResource(array[count])
