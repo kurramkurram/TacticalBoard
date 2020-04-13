@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Switch
 import androidx.fragment.app.Fragment
+import androidx.viewpager.widget.ViewPager
 import io.github.kurramkurram.futaltacticalboard.R
 
 class SettingCortEditFragment : Fragment(), View.OnClickListener {
@@ -16,7 +18,15 @@ class SettingCortEditFragment : Fragment(), View.OnClickListener {
             R.id.setting_cort_color_2,
             R.id.setting_cort_color_3
         )
+        val CORT_BACKGROUND_COLOR_ARRAY = arrayOf(
+            R.drawable.background,
+            R.drawable.background_gray,
+            R.drawable.background_cream,
+            R.drawable.background_gym
+        )
     }
+
+    private lateinit var mSwitch: Switch
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,12 +41,20 @@ class SettingCortEditFragment : Fragment(), View.OnClickListener {
             val cortColor = view.findViewById<View>(i)
             cortColor.setOnClickListener(this)
         }
+        mSwitch = view.findViewById(R.id.setting_half_cort)
     }
 
     override fun onClick(v: View?) {
-        when {
-            // TODO:
-            // CORT_COLOR_ARRAY.contains(v!!.id)
+        val id = v!!.id
+        if (CORT_COLOR_ARRAY.contains(id)) {
+            val viewPager = activity!!.findViewById<ViewPager>(R.id.setting_view_pager)
+            val index = CORT_COLOR_ARRAY.indexOf(id)
+            viewPager.setBackgroundResource(CORT_BACKGROUND_COLOR_ARRAY[index])
+            // TODO:状態保存
+        } else {
+
+            // TODO:状態保存
+            val isHalf = mSwitch.isChecked
         }
     }
 }
