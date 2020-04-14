@@ -49,7 +49,5 @@ class Preference private constructor() {
             val prefs = context.getSharedPreferences(FUTSAL_TACTICAL_PREFS, Context.MODE_PRIVATE)
             return prefs.getBoolean(key, default)
         }
-
     }
-
 }
