@@ -3,6 +3,7 @@ package io.github.kurramkurram.futaltacticalboard.ui
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
@@ -56,10 +57,17 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener {
 
         val backgroundArray = resources.obtainTypedArray(R.array.tactical_board_background_array)
         val color = backgroundArray.getColor(backgroundIndex, -1)
-        background.setBackgroundColor(color);
+        background.setBackgroundColor(color)
         backgroundArray.recycle()
 
-        val drawableArray = resources.obtainTypedArray(R.array.tactical_board_array)
+        val isHalf = Preference.get(context, Preference.KEY_HALF_CORT, false)
+
+        var drawableArray = resources.obtainTypedArray(R.array.tactical_board_array)
+        Log.d("FutsalCortActivity", "#onResume $isHalf")
+        if (isHalf) {
+            drawableArray = resources.obtainTypedArray(R.array.tactical_board_half_array)
+        }
+
         val drawable = drawableArray.getDrawable(backgroundIndex)
         background.setImageDrawable(drawable)
         drawableArray.recycle()

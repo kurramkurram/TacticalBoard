@@ -1,6 +1,7 @@
 package io.github.kurramkurram.futaltacticalboard.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,6 +38,7 @@ class SettingCortEditFragment : Fragment(), View.OnClickListener {
             cortColor.setOnClickListener(this)
         }
         mSwitch = view.findViewById(R.id.setting_half_cort)
+        mSwitch.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -52,6 +54,7 @@ class SettingCortEditFragment : Fragment(), View.OnClickListener {
             Preference.set(context!!, Preference.KEY_BACKGROUND_RESOURCE_INDEX, index)
         } else {
             val isHalf = mSwitch.isChecked
+            Log.d("SettingCortEditFragment", "#onClick $isHalf")
             Preference.set(context!!, Preference.KEY_HALF_CORT, isHalf)
         }
     }
