@@ -8,4 +8,21 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="SettingPlayerIconImageView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">0</item>
+        <item name="android:padding">@dimen/setting_team_edit_icon_padding</item>
+    </style>
+
+    <style name="SettingPlayerNameEditText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_marginEnd">@dimen/setting_team_edit_input_form_margin_e</item>
+        <item name="android:hint">@string/setting_team_edit_player_name_title</item>
+        <item name="android:inputType">text</item>
+        <item name="android:maxLength">5</item>
+        <item name="android:maxLines">1</item>
+    </style>
 </resources>

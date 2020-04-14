@@ -48,19 +48,12 @@
 
             <ImageView
                 android:id="@+id/setting_player_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:padding="@dimen/setting_team_edit_icon_padding"
+                style="@style/SettingPlayerIconImageView"
                 android:src="@drawable/player_blue_1" />
 
             <EditText
                 android:id="@+id/player_name_edit_text_1"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="@dimen/setting_team_edit_input_form_margin_e"
-                android:layout_weight="1"
-                android:hint="@string/setting_team_edit_player_name_title" />
+                style="@style/SettingPlayerNameEditText" />
         </LinearLayout>
 
         <LinearLayout
@@ -70,19 +63,12 @@
 
             <ImageView
                 android:id="@+id/setting_player_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:padding="@dimen/setting_team_edit_icon_padding"
+                style="@style/SettingPlayerIconImageView"
                 android:src="@drawable/player_blue_2" />
 
             <EditText
                 android:id="@+id/player_name_edit_text_2"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="@dimen/setting_team_edit_input_form_margin_e"
-                android:layout_weight="1"
-                android:hint="@string/setting_team_edit_player_name_title" />
+                style="@style/SettingPlayerNameEditText" />
         </LinearLayout>
 
         <LinearLayout
@@ -92,19 +78,12 @@
 
             <ImageView
                 android:id="@+id/setting_player_3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:padding="@dimen/setting_team_edit_icon_padding"
+                style="@style/SettingPlayerIconImageView"
                 android:src="@drawable/player_blue_3" />
 
             <EditText
                 android:id="@+id/player_name_edit_text_3"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="@dimen/setting_team_edit_input_form_margin_e"
-                android:layout_weight="1"
-                android:hint="@string/setting_team_edit_player_name_title" />
+                style="@style/SettingPlayerNameEditText" />
         </LinearLayout>
 
         <LinearLayout
@@ -114,19 +93,12 @@
 
             <ImageView
                 android:id="@+id/setting_player_4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:padding="@dimen/setting_team_edit_icon_padding"
+                style="@style/SettingPlayerIconImageView"
                 android:src="@drawable/player_blue_4" />
 
             <EditText
                 android:id="@+id/player_name_edit_text_4"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="@dimen/setting_team_edit_input_form_margin_e"
-                android:layout_weight="1"
-                android:hint="@string/setting_team_edit_player_name_title" />
+                style="@style/SettingPlayerNameEditText" />
         </LinearLayout>
 
         <LinearLayout
@@ -136,19 +108,12 @@
 
             <ImageView
                 android:id="@+id/setting_player_5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:padding="@dimen/setting_team_edit_icon_padding"
+                style="@style/SettingPlayerIconImageView"
                 android:src="@drawable/player_blue_5" />
 
             <EditText
                 android:id="@+id/player_name_edit_text_5"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="@dimen/setting_team_edit_input_form_margin_e"
-                android:layout_weight="1"
-                android:hint="@string/setting_team_edit_player_name_title" />
+                style="@style/SettingPlayerNameEditText" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
