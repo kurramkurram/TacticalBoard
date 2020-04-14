@@ -13,7 +13,7 @@ import android.widget.TextView
 class Player(
     context: Context,
     resourceId: Int,
-    name: String,
+    name: String?,
     wm: WindowManager,
     point: Array<Int>,
     gravity: Int
@@ -63,7 +63,7 @@ class Player(
         }
     }
 
-    fun setName(name: String) {
+    fun setName(name: String?) {
         mName.text = name
     }
 

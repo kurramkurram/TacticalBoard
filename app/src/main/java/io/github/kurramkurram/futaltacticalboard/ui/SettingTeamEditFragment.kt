@@ -66,14 +66,14 @@ class SettingTeamEditFragment : Fragment(), View.OnClickListener {
     override fun onPause() {
         super.onPause()
         var colorName = Preference.KEY_PLAYER_NAME_COLOR_BLUE
-        if (!mTeamBlue.isEnabled) { // 赤が無効の時、赤を編集中
+        if (!mTeamRed.isEnabled) { // 赤が無効の時、赤を編集中
             colorName = Preference.KEY_PLAYER_NAME_COLOR_RED
         }
 
         for ((count, name) in mPlayerEditTexts.withIndex()) {
             Preference.set(
                 context!!,
-                Preference.KEY_PLAYER_NAME_PREFIX + colorName + count + 1,
+                Preference.KEY_PLAYER_NAME_PREFIX + colorName + (count + 1),
                 name!!.text.toString()
             )
         }
@@ -99,14 +99,14 @@ class SettingTeamEditFragment : Fragment(), View.OnClickListener {
 
     private fun editPlayerName(array: Array<Int>) {
         var beforeColorName = Preference.KEY_PLAYER_NAME_COLOR_BLUE
-        if (FutsalCortActivity.PLAYER_RED_ARRAY.contentEquals(array)) {
+        if (FutsalCortActivity.PLAYER_BLUE_ARRAY.contentEquals(array)) {
             beforeColorName = Preference.KEY_PLAYER_NAME_COLOR_RED
         }
 
         for ((count, name) in mPlayerEditTexts.withIndex()) {
             Preference.set(
                 context!!,
-                Preference.KEY_PLAYER_NAME_PREFIX + beforeColorName + count + 1,
+                Preference.KEY_PLAYER_NAME_PREFIX + beforeColorName + (count + 1),
                 name!!.text.toString()
             )
         }

@@ -48,8 +48,10 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener {
     override fun onResume() {
         super.onResume()
 
+        val context = applicationContext
+
         val backgroundIndex =
-            Preference.get(applicationContext, Preference.KEY_BACKGROUND_RESOURCE_INDEX, 0)
+            Preference.get(context, Preference.KEY_BACKGROUND_RESOURCE_INDEX, 0)
         val background = findViewById<ImageView>(R.id.futsal_cort_background)
 
         val backgroundArray = resources.obtainTypedArray(R.array.tactical_board_background_array)
@@ -62,12 +64,17 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener {
         background.setImageDrawable(drawable)
         drawableArray.recycle()
 
+        val namePrefixBlue =
+            Preference.KEY_PLAYER_NAME_PREFIX + Preference.KEY_PLAYER_NAME_COLOR_BLUE
+        val namePrefixRed =
+            Preference.KEY_PLAYER_NAME_PREFIX + Preference.KEY_PLAYER_NAME_COLOR_RED
         if (mPlayersBlue[0] == null) {
+
             for (i in PLAYER_BLUE_ARRAY.indices) {
                 val player = Player(
                     applicationContext,
                     PLAYER_BLUE_ARRAY[i],
-                    "",
+                    Preference.get(context, namePrefixBlue + (i + 1), ""),
                     mWindowManager,
                     arrayOf(150 * i, 0),
                     Gravity.TOP
@@ -80,7 +87,7 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener {
                 val player = Player(
                     applicationContext,
                     PLAYER_RED_ARRAY[i],
-                    "",
+                    Preference.get(context, namePrefixRed + (i + 1), ""),
                     mWindowManager,
                     arrayOf(150 * i, 0),
                     Gravity.BOTTOM
@@ -89,11 +96,13 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener {
                 mPlayersRed[i] = player
             }
         } else {
-            for (p in mPlayersBlue) {
-                p!!.add()
+            for ((i, p) in mPlayersBlue.withIndex()) {
+                p!!.setName(Preference.get(context, namePrefixBlue + (i + 1), ""))
+                p.add()
             }
-            for (p in mPlayersRed) {
-                p!!.add()
+            for ((i, p) in mPlayersRed.withIndex()) {
+                p!!.setName(Preference.get(context, namePrefixRed + (i + 1), ""))
+                p.add()
             }
         }
     }
