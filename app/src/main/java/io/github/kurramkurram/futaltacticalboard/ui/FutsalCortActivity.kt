@@ -9,6 +9,7 @@ import android.view.WindowManager
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import io.github.kurramkurram.futaltacticalboard.Player
+import io.github.kurramkurram.futaltacticalboard.Preference
 import io.github.kurramkurram.futaltacticalboard.R
 
 class FutsalCortActivity : AppCompatActivity(), View.OnClickListener {
@@ -46,6 +47,20 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onResume() {
         super.onResume()
+
+        val backgroundIndex =
+            Preference.get(applicationContext, Preference.KEY_BACKGROUND_RESOURCE_INDEX, 0)
+        val background = findViewById<ImageView>(R.id.futsal_cort_background)
+
+        val backgroundArray = resources.obtainTypedArray(R.array.tactical_board_background_array)
+        val color = backgroundArray.getColor(backgroundIndex, -1)
+        background.setBackgroundColor(color);
+        backgroundArray.recycle()
+
+        val drawableArray = resources.obtainTypedArray(R.array.tactical_board_array)
+        val drawable = drawableArray.getDrawable(backgroundIndex)
+        background.setImageDrawable(drawable)
+        drawableArray.recycle()
 
         if (mPlayersBlue[0] == null) {
             for (i in PLAYER_BLUE_ARRAY.indices) {

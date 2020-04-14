@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="setting_background_array">
+        <item>@drawable/background</item>
+        <item>@drawable/background_gray</item>
+        <item>@drawable/background_cream</item>
+        <item>@drawable/background_gym</item>
+    </array>
+
+    <array name="tactical_board_array">
+        <item>@drawable/tactical_board_background</item>
+        <item>@drawable/tactical_board_background_gray</item>
+        <item>@drawable/tactical_board_background_cream</item>
+        <item>@drawable/tactical_board_background_gym</item>
+    </array>
+
+    <array name="tactical_board_background_array">
+        <item>@color/tactical_board_color_main</item>
+        <item>@color/tactical_board_color_gray</item>
+        <item>@color/tactical_board_color_cream</item>
+        <item>@color/tactical_board_color_gym</item>
+    </array>
+</resources>

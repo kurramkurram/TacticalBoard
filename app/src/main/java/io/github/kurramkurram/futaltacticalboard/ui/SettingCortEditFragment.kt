@@ -19,12 +19,6 @@ class SettingCortEditFragment : Fragment(), View.OnClickListener {
             R.id.setting_cort_color_2,
             R.id.setting_cort_color_3
         )
-        val CORT_BACKGROUND_COLOR_ARRAY = arrayOf(
-            R.drawable.background,
-            R.drawable.background_gray,
-            R.drawable.background_cream,
-            R.drawable.background_gym
-        )
     }
 
     private lateinit var mSwitch: Switch
@@ -50,7 +44,11 @@ class SettingCortEditFragment : Fragment(), View.OnClickListener {
         if (CORT_COLOR_ARRAY.contains(id)) {
             val viewPager = activity!!.findViewById<ViewPager>(R.id.setting_view_pager)
             val index = CORT_COLOR_ARRAY.indexOf(id)
-            viewPager.setBackgroundResource(CORT_BACKGROUND_COLOR_ARRAY[index])
+            val backgroundColorArray =
+                context!!.resources.obtainTypedArray(R.array.setting_background_array)
+            val drawable = backgroundColorArray.getDrawable(index)
+            viewPager.background = drawable
+            backgroundColorArray.recycle()
             Preference.set(context!!, Preference.KEY_BACKGROUND_RESOURCE_INDEX, index)
         } else {
             val isHalf = mSwitch.isChecked
