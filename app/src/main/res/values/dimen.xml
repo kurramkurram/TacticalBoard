@@ -24,4 +24,9 @@
 
     <dimen name="setting_team_edit_team_padding">20dp</dimen>
 
+    <dimen name="setting_team_edit_button_width">80dp</dimen>
+    <dimen name="setting_team_edit_button_margin">10dp</dimen>
+    <dimen name="setting_team_edit_button_padding">10dp</dimen>
+    <dimen name="setting_team_edit_button_text_size">15sp</dimen>
+
 </resources>

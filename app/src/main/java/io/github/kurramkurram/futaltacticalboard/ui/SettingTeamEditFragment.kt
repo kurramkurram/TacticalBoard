@@ -1,12 +1,11 @@
 package io.github.kurramkurram.futaltacticalboard.ui
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.LinearLayout
+import android.widget.*
 import androidx.fragment.app.Fragment
 import io.github.kurramkurram.futaltacticalboard.Preference
 import io.github.kurramkurram.futaltacticalboard.R
@@ -61,24 +60,19 @@ class SettingTeamEditFragment : Fragment(), View.OnClickListener {
         for (i in PLAYER_EDIT_TEXT_IDS.indices) {
             mPlayerEditTexts[i] = view.findViewById(PLAYER_EDIT_TEXT_IDS[i])
         }
+
+        val resetButton = view.findViewById<TextView>(R.id.player_edit_reset_button)
+        resetButton.setOnClickListener(this)
+        val okButton = view.findViewById<TextView>(R.id.player_edit_ok_button)
+        okButton.setOnClickListener(this)
     }
 
     override fun onPause() {
         super.onPause()
-        var colorName = Preference.KEY_PLAYER_NAME_COLOR_BLUE
-        if (!mTeamRed.isEnabled) { // 赤が無効の時、赤を編集中
-            colorName = Preference.KEY_PLAYER_NAME_COLOR_RED
-        }
-
-        for ((count, name) in mPlayerEditTexts.withIndex()) {
-            Preference.set(
-                context!!,
-                Preference.KEY_PLAYER_NAME_PREFIX + colorName + (count + 1),
-                name!!.text.toString()
-            )
-        }
+        savePlayerName()
     }
 
+    @SuppressLint("ShowToast")
     override fun onClick(v: View?) {
         val array: Array<Int>
         when (v!!.id) {
@@ -93,6 +87,27 @@ class SettingTeamEditFragment : Fragment(), View.OnClickListener {
                 mTeamBlue.isEnabled = true
                 array = FutsalCortActivity.PLAYER_RED_ARRAY
                 editPlayerName(array)
+            }
+            R.id.player_edit_reset_button -> {
+                for (e in mPlayerEditTexts) {
+                    e!!.editableText.clear()
+                }
+                var colorName = Preference.KEY_PLAYER_NAME_COLOR_BLUE
+                if (!mTeamRed.isEnabled) { // 赤が無効の時、赤を編集中
+                    colorName = Preference.KEY_PLAYER_NAME_COLOR_RED
+                }
+
+                for ((count, name) in mPlayerEditTexts.withIndex()) {
+                    Preference.set(
+                        context!!,
+                        Preference.KEY_PLAYER_NAME_PREFIX + colorName + (count + 1),
+                        ""
+                    )
+                }
+            }
+            R.id.player_edit_ok_button -> {
+                savePlayerName()
+                Toast.makeText(context!!, "CONFIRMED!!", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -120,5 +135,20 @@ class SettingTeamEditFragment : Fragment(), View.OnClickListener {
         }
 
         mPlayerEditLayout.visibility = View.VISIBLE
+    }
+
+    private fun savePlayerName() {
+        var colorName = Preference.KEY_PLAYER_NAME_COLOR_BLUE
+        if (!mTeamRed.isEnabled) { // 赤が無効の時、赤を編集中
+            colorName = Preference.KEY_PLAYER_NAME_COLOR_RED
+        }
+
+        for ((count, name) in mPlayerEditTexts.withIndex()) {
+            Preference.set(
+                context!!,
+                Preference.KEY_PLAYER_NAME_PREFIX + colorName + (count + 1),
+                name!!.text.toString()
+            )
+        }
     }
 }

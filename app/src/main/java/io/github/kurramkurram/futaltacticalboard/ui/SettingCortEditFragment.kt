@@ -1,7 +1,7 @@
 package io.github.kurramkurram.futaltacticalboard.ui
 
+import android.content.res.TypedArray
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +23,8 @@ class SettingCortEditFragment : Fragment(), View.OnClickListener {
     }
 
     private lateinit var mSwitch: Switch
+    private lateinit var mViewPager: ViewPager
+    private lateinit var mBackgroundColorArray: TypedArray
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,22 +41,29 @@ class SettingCortEditFragment : Fragment(), View.OnClickListener {
         }
         mSwitch = view.findViewById(R.id.setting_half_cort)
         mSwitch.setOnClickListener(this)
+        mViewPager = activity!!.findViewById(R.id.setting_view_pager)
+        mBackgroundColorArray =
+            context!!.resources.obtainTypedArray(R.array.setting_background_array)
+        val index = Preference.get(context!!, Preference.KEY_BACKGROUND_RESOURCE_INDEX, 0)
+        mViewPager.background = mBackgroundColorArray.getDrawable(index)
+
+        mSwitch.isChecked = Preference.get(context!!, Preference.KEY_HALF_CORT, false)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mBackgroundColorArray.recycle()
     }
 
     override fun onClick(v: View?) {
         val id = v!!.id
         if (CORT_COLOR_ARRAY.contains(id)) {
-            val viewPager = activity!!.findViewById<ViewPager>(R.id.setting_view_pager)
             val index = CORT_COLOR_ARRAY.indexOf(id)
-            val backgroundColorArray =
-                context!!.resources.obtainTypedArray(R.array.setting_background_array)
-            val drawable = backgroundColorArray.getDrawable(index)
-            viewPager.background = drawable
-            backgroundColorArray.recycle()
+            val drawable = mBackgroundColorArray.getDrawable(index)
+            mViewPager.background = drawable
             Preference.set(context!!, Preference.KEY_BACKGROUND_RESOURCE_INDEX, index)
         } else {
             val isHalf = mSwitch.isChecked
-            Log.d("SettingCortEditFragment", "#onClick $isHalf")
             Preference.set(context!!, Preference.KEY_HALF_CORT, isHalf)
         }
     }
