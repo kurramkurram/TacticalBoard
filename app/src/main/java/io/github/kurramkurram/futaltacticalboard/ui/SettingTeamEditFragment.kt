@@ -113,25 +113,27 @@ class SettingTeamEditFragment : Fragment(), View.OnClickListener {
     }
 
     private fun editPlayerName(array: Array<Int>) {
-        var beforeColorName = Preference.KEY_PLAYER_NAME_COLOR_BLUE
+        var beforeName =
+            Preference.KEY_PLAYER_NAME_PREFIX + Preference.KEY_PLAYER_NAME_COLOR_BLUE
+        var afterName =
+            Preference.KEY_PLAYER_NAME_PREFIX + Preference.KEY_PLAYER_NAME_COLOR_RED
         if (FutsalCortActivity.PLAYER_BLUE_ARRAY.contentEquals(array)) {
-            beforeColorName = Preference.KEY_PLAYER_NAME_COLOR_RED
+            beforeName = Preference.KEY_PLAYER_NAME_PREFIX + Preference.KEY_PLAYER_NAME_COLOR_RED
+            afterName = Preference.KEY_PLAYER_NAME_PREFIX + Preference.KEY_PLAYER_NAME_COLOR_BLUE
         }
 
         for ((count, name) in mPlayerEditTexts.withIndex()) {
-            Preference.set(
-                context!!,
-                Preference.KEY_PLAYER_NAME_PREFIX + beforeColorName + (count + 1),
-                name!!.text.toString()
-            )
-        }
-
-        for ((count, image) in mPlayerIcons.withIndex()) {
-            image!!.setImageResource(array[count])
+            Preference.set(context!!, beforeName + (count + 1), name!!.text.toString())
         }
 
         for (e in mPlayerEditTexts) {
             e!!.editableText.clear()
+        }
+
+        for ((count, image) in mPlayerIcons.withIndex()) {
+            image!!.setImageResource(array[count])
+            val name = Preference.get(context!!, afterName + (count + 1), "")
+            mPlayerEditTexts[count]!!.setText(name)
         }
 
         mPlayerEditLayout.visibility = View.VISIBLE
