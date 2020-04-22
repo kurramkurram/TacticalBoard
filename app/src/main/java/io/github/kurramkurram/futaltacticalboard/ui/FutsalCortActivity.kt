@@ -8,6 +8,7 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import io.github.kurramkurram.futaltacticalboard.Player
 import io.github.kurramkurram.futaltacticalboard.Preference
 import io.github.kurramkurram.futaltacticalboard.R
@@ -34,6 +35,10 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var mWindowManager: WindowManager
     private var mPlayersBlue = arrayOfNulls<Player>(PLAYER_BLUE_ARRAY.size)
     private var mPlayersRed = arrayOfNulls<Player>(PLAYER_RED_ARRAY.size)
+    private lateinit var mCortLayout: ConstraintLayout
+    private lateinit var mDrawIcon: ImageView
+    private lateinit var mDeleteIcon: ImageView
+    private lateinit var mLine: DrawLine
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +48,12 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener {
 
         val settings = findViewById<ImageView>(R.id.futsal_cort_setting)
         settings.setOnClickListener(this)
+
+        mDrawIcon = findViewById(R.id.futsal_cort_draw_line)
+        mDrawIcon.setOnClickListener(this)
+
+        mDeleteIcon = findViewById(R.id.futsal_cort_delete_line)
+        mDeleteIcon.setOnClickListener(this)
     }
 
     override fun onResume() {
@@ -112,6 +123,9 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener {
                 p.add()
             }
         }
+
+        mCortLayout = findViewById(R.id.futsal_cort)
+        mLine = DrawLine(context)
     }
 
     override fun onPause() {
@@ -130,12 +144,21 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener {
         mPlayersRed = arrayOfNulls(PLAYER_RED_ARRAY.size)
     }
 
-
     override fun onClick(v: View?) {
         when (v!!.id) {
             R.id.futsal_cort_setting -> {
                 val intent = Intent(this, SettingActivity::class.java)
                 startActivity(intent)
+            }
+            R.id.futsal_cort_draw_line -> {
+                mDrawIcon.visibility = View.GONE
+                mDeleteIcon.visibility = View.VISIBLE
+                mCortLayout.addView(mLine, 1)
+            }
+            R.id.futsal_cort_delete_line -> {
+                mCortLayout.removeView(mLine)
+                mDeleteIcon.visibility = View.GONE
+                mDrawIcon.visibility = View.VISIBLE
             }
         }
     }

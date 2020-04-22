@@ -5,10 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import io.github.kurramkurram.futaltacticalboard.Preference
 import io.github.kurramkurram.futaltacticalboard.R
+import io.github.kurramkurram.futaltacticalboard.showToast
 
 class SettingTeamEditFragment : Fragment(), View.OnClickListener {
 
@@ -97,7 +101,7 @@ class SettingTeamEditFragment : Fragment(), View.OnClickListener {
                     colorName = Preference.KEY_PLAYER_NAME_COLOR_RED
                 }
 
-                for ((count, name) in mPlayerEditTexts.withIndex()) {
+                for (count in mPlayerEditTexts.indices) {
                     Preference.set(
                         context!!,
                         Preference.KEY_PLAYER_NAME_PREFIX + colorName + (count + 1),
@@ -107,7 +111,7 @@ class SettingTeamEditFragment : Fragment(), View.OnClickListener {
             }
             R.id.player_edit_ok_button -> {
                 savePlayerName()
-                Toast.makeText(context!!, "CONFIRMED!!", Toast.LENGTH_SHORT).show()
+                context!!.showToast("CONFIRMED!!")
             }
         }
     }

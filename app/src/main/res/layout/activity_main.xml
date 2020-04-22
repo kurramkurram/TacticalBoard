@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/futsal_cort"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.MainActivity">
@@ -22,4 +23,23 @@
         android:src="@drawable/ic_settings"
         app:layout_constraintRight_toRightOf="@id/futsal_cort_background"
         app:layout_constraintTop_toTopOf="@id/futsal_cort_background" />
+
+    <ImageView
+        android:id="@+id/futsal_cort_draw_line"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/cort_setting_icon_margin"
+        android:src="@drawable/ic_mode_edit"
+        app:layout_constraintBottom_toBottomOf="@id/futsal_cort_background"
+        app:layout_constraintRight_toRightOf="@id/futsal_cort_background" />
+
+    <ImageView
+        android:id="@+id/futsal_cort_delete_line"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/cort_setting_icon_margin"
+        android:src="@drawable/ic_delete"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/futsal_cort_background"
+        app:layout_constraintRight_toRightOf="@id/futsal_cort_background" />
 </androidx.constraintlayout.widget.ConstraintLayout>
