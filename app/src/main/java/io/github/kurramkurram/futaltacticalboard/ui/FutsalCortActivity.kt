@@ -46,6 +46,8 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener {
 
         mWindowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
 
+        mCortLayout = findViewById(R.id.futsal_cort)
+
         val settings = findViewById<ImageView>(R.id.futsal_cort_setting)
         settings.setOnClickListener(this)
 
@@ -123,9 +125,6 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener {
                 p.add()
             }
         }
-
-        mCortLayout = findViewById(R.id.futsal_cort)
-        mLine = DrawLine(context)
     }
 
     override fun onPause() {
@@ -153,6 +152,7 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener {
             R.id.futsal_cort_draw_line -> {
                 mDrawIcon.visibility = View.GONE
                 mDeleteIcon.visibility = View.VISIBLE
+                mLine = DrawLine(applicationContext)
                 mCortLayout.addView(mLine, 1)
             }
             R.id.futsal_cort_delete_line -> {
