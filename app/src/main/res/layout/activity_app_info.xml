@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/app_info_margin"
+        android:text="@string/app_name"
+        android:textSize="@dimen/app_info_app_name_text_size" />
+
+    <ImageView
+        android:layout_width="@dimen/app_info_icon_wh"
+        android:layout_height="@dimen/app_info_icon_wh"
+        android:src="@mipmap/ic_launcher_round" />
+
+    <TextView
+        android:id="@+id/version_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/app_info_margin"
+        android:textSize="@dimen/app_info_version_text_size" />
+
+    <TextView
+        android:id="@+id/oss_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/oss_licenses_button_margin"
+        android:background="@drawable/setting_button_background"
+        android:padding="@dimen/oss_licenses_button_padding"
+        android:text="@string/oss_licences_title"
+        android:elevation="10dp"
+        android:textSize="@dimen/oss_licenses_button_text_size" />
+</LinearLayout>

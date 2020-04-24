@@ -23,6 +23,20 @@
 
         <activity android:name=".ui.FutsalCortActivity" />
         <activity android:name=".ui.SettingActivity" />
+
+        <activity
+            android:name=".ui.info.AppInfoActivity"
+            android:label="@string/app_info"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+
+        <activity
+            android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
+            android:label="@string/oss_license_title"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+
+        <activity
+            android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
     </application>
 
 </manifest>

@@ -11,4 +11,5 @@
     <color name="tactical_board_color_gym">#C46F08</color>
 
     <color name="tactical_board_default_text_color">#000000</color>
+    <color name="tactical_board_button_default">#C0C0C0</color>
 </resources>
