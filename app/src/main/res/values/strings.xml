@@ -12,6 +12,8 @@
     <string name="setting_tab_name_2">TEAM</string>
     <string name="setting_tab_name_3">OTHERS</string>
 
-    <string name="app_info">このアプリについて</string>
-    <string name="oss_licences_title">オープンソースライセンス</string>
+    <string name="setting_team_edit_reset">RESET</string>
+    <string name="setting_team_edit_ok">OK</string>
+
+    <string name="app_info">About This App</string>
 </resources>

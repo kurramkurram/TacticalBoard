@@ -31,7 +31,7 @@
         android:layout_margin="@dimen/oss_licenses_button_margin"
         android:background="@drawable/setting_button_background"
         android:padding="@dimen/oss_licenses_button_padding"
-        android:text="@string/oss_licences_title"
-        android:elevation="10dp"
+        android:text="@string/oss_license_title"
+        android:elevation="@dimen/app_info_oss__button_elevation"
         android:textSize="@dimen/oss_licenses_button_text_size" />
 </LinearLayout>

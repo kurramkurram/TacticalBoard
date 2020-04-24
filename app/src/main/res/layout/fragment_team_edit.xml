@@ -124,12 +124,12 @@
             <TextView
                 android:id="@+id/player_edit_reset_button"
                 style="@style/SettingPlayerNameButton"
-                android:text="RESET" />
+                android:text="@string/setting_team_edit_reset" />
 
             <TextView
                 android:id="@+id/player_edit_ok_button"
                 style="@style/SettingPlayerNameButton"
-                android:text="OK" />
+                android:text="@string/setting_team_edit_ok" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

@@ -31,6 +31,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_margin">@dimen/setting_team_edit_button_margin</item>
         <item name="android:gravity">center</item>
+        <item name="android:elevation">@dimen/setting_team_edit_button_elevation</item>
         <item name="android:padding">@dimen/setting_team_edit_button_padding</item>
         <item name="android:textSize">@dimen/setting_team_edit_button_text_size</item>
         <item name="android:background">@drawable/setting_button_background</item>

@@ -29,6 +29,8 @@
     <dimen name="setting_team_edit_button_padding">10dp</dimen>
     <dimen name="setting_team_edit_button_text_size">15sp</dimen>
 
+    <dimen name="setting_team_edit_button_elevation">5dp</dimen>
+
     <dimen name="setting_others_list_margin_top">10dp</dimen>
 
     <dimen name="setting_others_list_item_height">80dp</dimen>
@@ -40,6 +42,7 @@
     <dimen name="app_info_app_name_text_size">20sp</dimen>
     <dimen name="app_info_icon_wh">100dp</dimen>
     <dimen name="app_info_version_text_size">15sp</dimen>
+    <dimen name="app_info_oss__button_elevation">5dp</dimen>
 
     <dimen name="oss_licenses_button_padding">15dp</dimen>
     <dimen name="oss_licenses_button_margin">40dp</dimen>
