@@ -2,6 +2,7 @@ package io.github.kurramkurram.futaltacticalboard.ui.info
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -20,6 +21,8 @@ class AppInfoActivity : AppCompatActivity(), View.OnClickListener {
 
         val ossButton = findViewById<TextView>(R.id.oss_text_view)
         ossButton.setOnClickListener(this)
+
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
 
     override fun onClick(v: View?) {
@@ -29,5 +32,17 @@ class AppInfoActivity : AppCompatActivity(), View.OnClickListener {
                 startActivity(intent)
             }
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+            }
+        }
+
+
+        return super.onOptionsItemSelected(item)
     }
 }
