@@ -27,16 +27,16 @@
         <activity
             android:name=".ui.info.AppInfoActivity"
             android:label="@string/app_info"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+            android:theme="@style/ActionBarMain" />
 
         <activity
             android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
             android:label="@string/oss_license_title"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+            android:theme="@style/ActionBarMain" />
 
         <activity
             android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+            android:theme="@style/ActionBarMain" />
     </application>
 
 </manifest>
