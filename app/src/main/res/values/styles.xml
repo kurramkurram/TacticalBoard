@@ -37,8 +37,12 @@
         <item name="android:background">@drawable/setting_button_background</item>
     </style>
 
-    <style name="ActionBarMain" parent="Theme.AppCompat.Light">
+    <style name="ActionBarMain" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/tactical_board_color_main</item>
-        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:titleTextStyle">@style/ActionBarTitle</item>
+    </style>
+
+    <style name="ActionBarTitle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="android:textColor">@android:color/white</item>
     </style>
 </resources>
