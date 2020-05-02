@@ -45,4 +45,12 @@
     <style name="ActionBarTitle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
         <item name="android:textColor">@android:color/white</item>
     </style>
+
+    <style name="MovieCommon">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_weight">0</item>
+        <item name="android:padding">3dp</item>
+        <item name="android:paddingTop">10dp</item>
+    </style>
 </resources>

@@ -8,29 +8,39 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 
 class Player(
     context: Context,
+    id: Int,
     resourceId: Int,
     name: String?,
     wm: WindowManager,
     point: Array<Int>,
     gravity: Int
-) : OnPlayerTouchListener.OnUpdateCallbackListener {
+) : OnPlayerTouchListener.OnUpdateCallbackListener, PlayerAnimation.OnAnimationCallback {
 
-    private var mPlayer: View
-    private var mIcon: ImageView
-    private var mName: TextView
+    val mId = id
+    private val mPlayer: View
+    private val mIcon: ImageView
+    var mName: TextView
     private var mWindowManager = wm
-    private var mParams: WindowManager.LayoutParams = getLayoutParams()
+    val mParams: WindowManager.LayoutParams = getLayoutParams()
+    private val mLayout: LinearLayout
+    private val mAnimation = PlayerAnimation()
+    private val mAnimationArray = ArrayList<Array<Int>>()
 
     init {
         val inflater = LayoutInflater.from(context)
         mPlayer = inflater.inflate(R.layout.player_layout, null)
+        mLayout = mPlayer.findViewById(R.id.player_layout_view)
         val listener = OnPlayerTouchListener()
         listener.setCallbackListener(this)
         mPlayer.setOnTouchListener(listener)
+
+        mAnimation.setListener(this)
+
         mIcon = mPlayer.findViewById(R.id.player_icon)
         mIcon.setImageResource(resourceId)
         mName = mPlayer.findViewById(R.id.player_name)
@@ -53,6 +63,24 @@ class Player(
             mParams.y += deltaPoint[1]
         }
         mWindowManager.updateViewLayout(mPlayer, mParams)
+    }
+
+    override fun updateAnimation(point: Array<Int>) {
+        mParams.x = point[0]
+        mParams.y = point[1]
+        mWindowManager.updateViewLayout(mPlayer, mParams)
+    }
+
+    override fun endAnimation() {
+        mAnimationArray.clear()
+    }
+
+    fun put(point: Array<Int>) {
+        mAnimationArray.add(point)
+    }
+
+    fun play() {
+        mAnimation.startAnimation(mAnimationArray)
     }
 
     private fun isAttachedToWindow() = mPlayer.isAttachedToWindow

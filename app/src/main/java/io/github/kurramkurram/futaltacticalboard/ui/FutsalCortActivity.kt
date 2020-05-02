@@ -3,15 +3,23 @@ package io.github.kurramkurram.futaltacticalboard.ui
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
 import android.widget.ImageView
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import io.github.kurramkurram.futaltacticalboard.ColorEnum
 import io.github.kurramkurram.futaltacticalboard.Player
 import io.github.kurramkurram.futaltacticalboard.Preference
 import io.github.kurramkurram.futaltacticalboard.R
+import io.github.kurramkurram.futaltacticalboard.db.PlayerData
+import io.github.kurramkurram.futaltacticalboard.db.PlayerDataDatabase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class FutsalCortActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -30,6 +38,8 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener {
             R.drawable.player_blue_4,
             R.drawable.player_blue_5
         )
+
+        private val TAG = "FutsalCortActivity"
     }
 
     private lateinit var mWindowManager: WindowManager
@@ -39,6 +49,13 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var mDrawIcon: ImageView
     private lateinit var mDeleteIcon: ImageView
     private lateinit var mLine: DrawLine
+
+    private val mScope = CoroutineScope(Dispatchers.Default)
+    private lateinit var mMovieLayout: LinearLayout
+
+    private var mPlayerDataArray: ArrayList<PlayerData> = ArrayList()
+
+    private var mIndex = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,15 +68,33 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener {
         val settings = findViewById<ImageView>(R.id.futsal_cort_setting)
         settings.setOnClickListener(this)
 
+        val createMovie = findViewById<ImageView>(R.id.futsal_cort_create_movie)
+        createMovie.setOnClickListener(this)
+
         mDrawIcon = findViewById(R.id.futsal_cort_draw_line)
         mDrawIcon.setOnClickListener(this)
 
         mDeleteIcon = findViewById(R.id.futsal_cort_delete_line)
         mDeleteIcon.setOnClickListener(this)
+
+        val addMovie = findViewById<ImageView>(R.id.add_movie_edit)
+        addMovie.setOnClickListener(this)
+
+        val playMovie = findViewById<ImageView>(R.id.play_movie_edit)
+        playMovie.setOnClickListener(this)
+
+        val saveMovie = findViewById<ImageView>(R.id.save_movie_edit)
+        saveMovie.setOnClickListener(this)
+
+        val cancelMovie = findViewById<ImageView>(R.id.cancel_movie_edit)
+        cancelMovie.setOnClickListener(this)
+
+        mMovieLayout = findViewById(R.id.futsal_cort_movie_layout)
     }
 
     override fun onResume() {
         super.onResume()
+        Log.d(TAG, "#onResume")
 
         val context = applicationContext
 
@@ -92,12 +127,9 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener {
 
             for (i in PLAYER_BLUE_ARRAY.indices) {
                 val player = Player(
-                    applicationContext,
-                    PLAYER_BLUE_ARRAY[i],
+                    applicationContext, i, PLAYER_BLUE_ARRAY[i],
                     Preference.get(context, namePrefixBlue + (i + 1), ""),
-                    mWindowManager,
-                    arrayOf(150 * i, 0),
-                    Gravity.TOP
+                    mWindowManager, arrayOf(150 * i, 150), Gravity.TOP
                 )
                 player.add()
                 mPlayersBlue[i] = player
@@ -105,12 +137,9 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener {
 
             for (i in PLAYER_RED_ARRAY.indices) {
                 val player = Player(
-                    applicationContext,
-                    PLAYER_RED_ARRAY[i],
+                    applicationContext, i, PLAYER_RED_ARRAY[i],
                     Preference.get(context, namePrefixRed + (i + 1), ""),
-                    mWindowManager,
-                    arrayOf(150 * i, 0),
-                    Gravity.BOTTOM
+                    mWindowManager, arrayOf(150 * i, 0), Gravity.BOTTOM
                 )
                 player.add()
                 mPlayersRed[i] = player
@@ -146,20 +175,136 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v!!.id) {
             R.id.futsal_cort_setting -> {
-                val intent = Intent(this, SettingActivity::class.java)
-                startActivity(intent)
+                startSetting()
+            }
+            R.id.futsal_cort_create_movie -> {
+                createMovie()
+            }
+            R.id.add_movie_edit -> {
+                addMovie()
+            }
+            R.id.play_movie_edit -> {
+                playMovie()
+            }
+            R.id.save_movie_edit -> {
+                saveMovie()
+            }
+            R.id.cancel_movie_edit -> {
+                cancelMovie()
             }
             R.id.futsal_cort_draw_line -> {
-                mDrawIcon.visibility = View.GONE
-                mDeleteIcon.visibility = View.VISIBLE
-                mLine = DrawLine(applicationContext)
-                mCortLayout.addView(mLine, 1)
+                drawLine()
             }
             R.id.futsal_cort_delete_line -> {
-                mCortLayout.removeView(mLine)
-                mDeleteIcon.visibility = View.GONE
-                mDrawIcon.visibility = View.VISIBLE
+                deleteLine()
             }
         }
+    }
+
+    private suspend fun saveTask() {
+        Log.d("FutsalCortActivity", "#saveTask")
+
+        try {
+            val db = PlayerDataDatabase.getDatabases(applicationContext)
+            val playerDao = db.playerDao()
+            playerDao.insert(mPlayerDataArray)
+        } catch (e: Exception) {
+            Log.e("FutsalCortActivity", "#saveTask", e)
+        }
+    }
+
+    private fun startSetting() {
+        Log.d(TAG, "#startSetting")
+        val intent = Intent(this, SettingActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun createMovie() {
+        Log.d(TAG, "#createMovie")
+        mMovieLayout.visibility = View.VISIBLE
+        mPlayerDataArray = ArrayList()
+        mIndex = 0
+        savePosition()
+    }
+
+    private fun addMovie() {
+        Log.d(TAG, "#addMovie")
+        mIndex++
+        savePosition()
+    }
+
+    private fun savePosition() {
+        Log.d(TAG, "#savePosition")
+        for (p in mPlayersBlue) {
+            val playerData = PlayerData(
+                0, 1, mIndex, ColorEnum.BLUE.id, p!!.mId, p.mName.toString(),
+                p.mParams.x, p.mParams.y
+            )
+            mPlayerDataArray.add(playerData)
+        }
+        for (p in mPlayersRed) {
+            val playerData = PlayerData(
+                0, 1, mIndex, ColorEnum.RED.id, p!!.mId, p.mName.toString(),
+                p.mParams.x, p.mParams.y
+            )
+            mPlayerDataArray.add(playerData)
+        }
+    }
+
+    private fun playMovie() {
+        Log.d(TAG, "#playMovie")
+        for (playerData in mPlayerDataArray) {
+            val color = playerData.playerColor
+            val playerId = playerData.playerId
+            val x = playerData.playerX
+            val y = playerData.playerY
+
+            when (color) {
+                ColorEnum.BLUE.id -> {
+                    for (player in mPlayersBlue) {
+                        if (player!!.mId == playerId) {
+                            player.put(arrayOf(x, y))
+                        }
+                    }
+                }
+                ColorEnum.RED.id -> {
+                    for (player in mPlayersRed) {
+                        if (player!!.mId == playerId) {
+                            player.put(arrayOf(x, y))
+                        }
+                    }
+                }
+            }
+        }
+        for (player in mPlayersBlue) {
+            player!!.play()
+        }
+        for (player in mPlayersRed) {
+            player!!.play()
+        }
+
+    }
+
+    private fun saveMovie() {
+        mScope.launch {
+            saveTask()
+        }
+    }
+
+    private fun cancelMovie() {
+        mMovieLayout.visibility = View.GONE
+    }
+
+    private fun drawLine() {
+        mDrawIcon.visibility = View.GONE
+        mDeleteIcon.visibility = View.VISIBLE
+        mLine = DrawLine(applicationContext)
+        mCortLayout.addView(mLine, 1)
+    }
+
+    private fun deleteLine() {
+        mCortLayout.removeView(mLine)
+        mDeleteIcon.visibility = View.GONE
+        mDrawIcon.visibility = View.VISIBLE
     }
 }

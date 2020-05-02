@@ -4,18 +4,24 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/player_icon"
+    <LinearLayout
+        android:id="@+id/player_layout_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/player_blue_1" />
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/player_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textColor="@color/tactical_board_default_text_color"
-        android:textSize="@dimen/player_name_text_size" />
+        <ImageView
+            android:id="@+id/player_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/player_blue_1" />
 
+        <TextView
+            android:id="@+id/player_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/tactical_board_default_text_color"
+            android:textSize="@dimen/player_name_text_size" />
+    </LinearLayout>
 </LinearLayout>

@@ -25,6 +25,15 @@
         app:layout_constraintTop_toTopOf="@id/futsal_cort_background" />
 
     <ImageView
+        android:id="@+id/futsal_cort_create_movie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/cort_movie_icon_margin"
+        android:src="@drawable/ic_movie_creation"
+        app:layout_constraintRight_toLeftOf="@+id/futsal_cort_setting"
+        app:layout_constraintTop_toTopOf="@id/futsal_cort_background" />
+
+    <ImageView
         android:id="@+id/futsal_cort_draw_line"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -42,4 +51,11 @@
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/futsal_cort_background"
         app:layout_constraintRight_toRightOf="@id/futsal_cort_background" />
+
+    <include
+        android:id="@+id/futsal_cort_movie_layout"
+        layout="@layout/create_movie_layout"
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="@+id/futsal_cort_background"
+        app:layout_constraintTop_toTopOf="@+id/futsal_cort_background" />
 </androidx.constraintlayout.widget.ConstraintLayout>

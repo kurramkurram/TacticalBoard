@@ -3,6 +3,8 @@
     <dimen name="player_name_text_size">15sp</dimen>
 
     <dimen name="cort_setting_icon_margin">10dp</dimen>
+    <dimen name="cort_movie_icon_margin">10dp</dimen>
+    <dimen name="cort_movie_layout_elevation">4dp</dimen>
 
     <dimen name="setting_cort_edit_title_text_width">200dp</dimen>
     <dimen name="setting_cort_edit_title_text_size">20sp</dimen>
