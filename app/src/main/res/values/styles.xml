@@ -50,7 +50,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_weight">0</item>
-        <item name="android:padding">3dp</item>
-        <item name="android:paddingTop">10dp</item>
+        <item name="android:padding">@dimen/cort_icon_padding</item>
+        <item name="android:paddingTop">@dimen/cort_icon_padding_top</item>
     </style>
 </resources>

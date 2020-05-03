@@ -19,7 +19,8 @@
         android:id="@+id/futsal_cort_setting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/cort_setting_icon_margin"
+        android:padding="@dimen/cort_icon_padding"
+        android:paddingTop="@dimen/cort_icon_padding_top"
         android:src="@drawable/ic_settings"
         app:layout_constraintRight_toRightOf="@id/futsal_cort_background"
         app:layout_constraintTop_toTopOf="@id/futsal_cort_background" />
@@ -28,7 +29,8 @@
         android:id="@+id/futsal_cort_create_movie"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/cort_movie_icon_margin"
+        android:padding="@dimen/cort_icon_padding"
+        android:paddingTop="@dimen/cort_icon_padding_top"
         android:src="@drawable/ic_movie_creation"
         app:layout_constraintRight_toLeftOf="@+id/futsal_cort_setting"
         app:layout_constraintTop_toTopOf="@id/futsal_cort_background" />
@@ -37,7 +39,7 @@
         android:id="@+id/futsal_cort_draw_line"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/cort_setting_icon_margin"
+        android:padding="@dimen/cort_icon_padding"
         android:src="@drawable/ic_mode_edit"
         app:layout_constraintBottom_toBottomOf="@id/futsal_cort_background"
         app:layout_constraintRight_toRightOf="@id/futsal_cort_background" />
@@ -46,7 +48,7 @@
         android:id="@+id/futsal_cort_delete_line"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/cort_setting_icon_margin"
+        android:padding="@dimen/cort_icon_padding"
         android:src="@drawable/ic_delete"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/futsal_cort_background"

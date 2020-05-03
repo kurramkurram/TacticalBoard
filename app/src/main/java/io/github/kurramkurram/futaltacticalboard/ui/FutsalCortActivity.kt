@@ -109,8 +109,6 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
 
     override fun onResume() {
         super.onResume()
-        Log.d(TAG, "#onResume")
-
         val context = applicationContext
 
         val backgroundIndex =
@@ -121,6 +119,8 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
         val color = backgroundArray.getColor(backgroundIndex, -1)
         background.setBackgroundColor(color)
         backgroundArray.recycle()
+
+        mMovieLayout.setBackgroundColor(color)
 
         val isHalf = Preference.get(context, Preference.KEY_HALF_CORT, false)
 
@@ -144,7 +144,7 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
                 val player = Player(
                     applicationContext, i, PLAYER_BLUE_ARRAY[i],
                     Preference.get(context, namePrefixBlue + (i + 1), ""),
-                    mWindowManager, arrayOf(150 * i, 150), Gravity.TOP
+                    mWindowManager, arrayOf(150 * i + 20, 150), Gravity.TOP
                 )
                 player.setListener(this)
                 player.add()
@@ -155,7 +155,7 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
                 val player = Player(
                     applicationContext, i, PLAYER_RED_ARRAY[i],
                     Preference.get(context, namePrefixRed + (i + 1), ""),
-                    mWindowManager, arrayOf(150 * i, 0), Gravity.BOTTOM
+                    mWindowManager, arrayOf(150 * i + 20, 0), Gravity.BOTTOM
                 )
                 player.setListener(this)
                 player.add()
@@ -241,16 +241,6 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
         }
     }
 
-    private suspend fun saveTask() {
-        try {
-            val db = PlayerDataDatabase.getDatabases(applicationContext)
-            val playerDao = db.playerDao()
-            playerDao.insert(mPlayerDataArray)
-        } catch (e: Exception) {
-            Log.e("FutsalCortActivity", "#saveTask", e)
-        }
-    }
-
     private fun startSetting() {
         val intent = Intent(this, SettingActivity::class.java)
         startActivity(intent)
@@ -324,6 +314,16 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
     private fun saveMovie() {
         mScope.launch {
             saveTask()
+        }
+    }
+
+    private suspend fun saveTask() {
+        try {
+            val db = PlayerDataDatabase.getDatabases(applicationContext)
+            val playerDao = db.playerDao()
+            playerDao.insert(mPlayerDataArray)
+        } catch (e: Exception) {
+            Log.e("FutsalCortActivity", "#saveTask", e)
         }
     }
 

@@ -2,7 +2,8 @@
 <resources>
     <dimen name="player_name_text_size">15sp</dimen>
 
-    <dimen name="cort_setting_icon_margin">10dp</dimen>
+    <dimen name="cort_icon_padding">3dp</dimen>
+    <dimen name="cort_icon_padding_top">10dp</dimen>
     <dimen name="cort_movie_icon_margin">10dp</dimen>
     <dimen name="cort_movie_layout_elevation">4dp</dimen>
     <dimen name="cort_movie_index_width">36dp</dimen>
