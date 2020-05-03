@@ -313,22 +313,25 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
 
     private fun saveMovie() {
         mScope.launch {
-            saveTask()
-        }
-    }
-
-    private suspend fun saveTask() {
-        try {
-            val db = PlayerDataDatabase.getDatabases(applicationContext)
-            val playerDao = db.playerDao()
-            playerDao.insert(mPlayerDataArray)
-        } catch (e: Exception) {
-            Log.e("FutsalCortActivity", "#saveTask", e)
+            try {
+                val db = PlayerDataDatabase.getDatabases(applicationContext)
+                val playerDao = db.playerDao()
+                playerDao.insert(mPlayerDataArray)
+                Log.d("FutsalCortActivity", "#saveTask -- end --")
+            } catch (e: Exception) {
+                Log.e("FutsalCortActivity", "#saveTask", e)
+            }
         }
     }
 
     private fun cancelMovie() {
         mMovieLayout.visibility = View.GONE
+    }
+
+    private fun selectTask(groupId: Int) {
+        val db = PlayerDataDatabase.getDatabases(applicationContext)
+        val playerDao = db.playerDao()
+        mPlayerDataArray = playerDao.selectGroup(groupId) as ArrayList<PlayerData>
     }
 
     private fun drawLine() {

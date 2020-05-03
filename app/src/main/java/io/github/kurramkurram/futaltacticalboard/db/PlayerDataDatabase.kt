@@ -23,8 +23,8 @@ abstract class PlayerDataDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     PlayerDataDatabase::class.java,
-                    "player_data"
-                ).build()
+                    "player_data.db"
+                ).allowMainThreadQueries().build()
                 INSTANCE = instance
                 return instance
             }
