@@ -1,7 +1,6 @@
 package io.github.kurramkurram.futaltacticalboard
 
 import android.os.Handler
-import android.util.Log
 import kotlin.math.abs
 
 class PlayerAnimation {
@@ -35,13 +34,10 @@ class PlayerAnimation {
         mFromX = mAnimationArray[0][0]
         mFromY = mAnimationArray[0][1]
         mListener.updateAnimation(arrayOf(mFromX, mFromY))
-
-        next()
+        mListener.next(mAnimationIndex)
     }
 
-
-    private fun next() {
-        Log.d("PlayAnimation", "#next size = ${mAnimationArray.size} index = $mAnimationIndex")
+    fun next() {
         if (mAnimationArray.size - 1 >= mAnimationIndex) {
 
             mToX = mAnimationArray[mAnimationIndex][0]
@@ -57,19 +53,20 @@ class PlayerAnimation {
             nextFrame()
         } else {
             mAnimationIndex = 1
+            mListener.endAnimation()
+            mHandler.removeCallbacks(mRunnable)
         }
     }
 
     private fun nextFrame() {
-        Log.d("PlayAnimation", "#nextFrame")
         mDistanceX -= mDiffX
         mDistanceY -= mDiffY
+
         if (0 >= mDistanceX || 0 >= mDistanceY) {
             mFromX = mToX
             mFromY = mToY
             mListener.updateAnimation(arrayOf(mFromX, mFromY))
-            mHandler.removeCallbacks(mRunnable)
-            next()
+            mListener.next(mAnimationIndex)
             return
         }
 
@@ -86,8 +83,7 @@ class PlayerAnimation {
         }
 
         mListener.updateAnimation(arrayOf(mFromX, mFromY))
-        mHandler.removeCallbacks(mRunnable)
-        mHandler.postDelayed(mRunnable, 100)
+        mHandler.postDelayed(mRunnable, 10)
     }
 
     fun setListener(listener: OnAnimationCallback) {
@@ -98,5 +94,7 @@ class PlayerAnimation {
         fun updateAnimation(point: Array<Int>)
 
         fun endAnimation()
+
+        fun next(index: Int)
     }
 }

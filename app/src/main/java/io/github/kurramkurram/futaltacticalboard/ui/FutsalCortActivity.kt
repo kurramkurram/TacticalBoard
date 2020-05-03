@@ -1,14 +1,17 @@
 package io.github.kurramkurram.futaltacticalboard.ui
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.util.SparseArray
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import io.github.kurramkurram.futaltacticalboard.ColorEnum
@@ -21,7 +24,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class FutsalCortActivity : AppCompatActivity(), View.OnClickListener {
+class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
+    Player.OnAnimationCallback {
 
     companion object {
         val PLAYER_RED_ARRAY = arrayOf(
@@ -39,7 +43,7 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener {
             R.drawable.player_blue_5
         )
 
-        private val TAG = "FutsalCortActivity"
+        private const val TAG = "FutsalCortActivity"
     }
 
     private lateinit var mWindowManager: WindowManager
@@ -50,12 +54,15 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var mDeleteIcon: ImageView
     private lateinit var mLine: DrawLine
 
+    private lateinit var mMovieIndex: TextView
+
     private val mScope = CoroutineScope(Dispatchers.Default)
     private lateinit var mMovieLayout: LinearLayout
 
     private var mPlayerDataArray: ArrayList<PlayerData> = ArrayList()
 
     private var mIndex = 0
+    private var mFinishedMap = SparseArray<Any>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,6 +97,8 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener {
         cancelMovie.setOnClickListener(this)
 
         mMovieLayout = findViewById(R.id.futsal_cort_movie_layout)
+
+        mMovieIndex = findViewById(R.id.index_play_movie_edit)
     }
 
     override fun onResume() {
@@ -131,6 +140,7 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener {
                     Preference.get(context, namePrefixBlue + (i + 1), ""),
                     mWindowManager, arrayOf(150 * i, 150), Gravity.TOP
                 )
+                player.setListener(this)
                 player.add()
                 mPlayersBlue[i] = player
             }
@@ -141,6 +151,7 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener {
                     Preference.get(context, namePrefixRed + (i + 1), ""),
                     mWindowManager, arrayOf(150 * i, 0), Gravity.BOTTOM
                 )
+                player.setListener(this)
                 player.add()
                 mPlayersRed[i] = player
             }
@@ -201,9 +212,29 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private suspend fun saveTask() {
-        Log.d("FutsalCortActivity", "#saveTask")
+    @SuppressLint("SetTextI18n")
+    @Synchronized
+    override fun next(index: Int, id: Int, color: Int) {
+        val key = color * 10 + id
+        mFinishedMap.put(key, true)
+        if (mFinishedMap.size() == 10) {
+            mFinishedMap.clear()
 
+            val max = mPlayerDataArray.size / 10 - 1
+            if (index <= max) {
+                mMovieIndex.text = "$index/$max"
+            }
+
+            for (player in mPlayersBlue) {
+                player!!.next()
+            }
+            for (player in mPlayersRed) {
+                player!!.next()
+            }
+        }
+    }
+
+    private suspend fun saveTask() {
         try {
             val db = PlayerDataDatabase.getDatabases(applicationContext)
             val playerDao = db.playerDao()
@@ -214,27 +245,25 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun startSetting() {
-        Log.d(TAG, "#startSetting")
         val intent = Intent(this, SettingActivity::class.java)
         startActivity(intent)
     }
 
     private fun createMovie() {
-        Log.d(TAG, "#createMovie")
         mMovieLayout.visibility = View.VISIBLE
         mPlayerDataArray = ArrayList()
         mIndex = 0
         savePosition()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun addMovie() {
-        Log.d(TAG, "#addMovie")
         mIndex++
         savePosition()
+        mMovieIndex.text = "0/" + (mPlayerDataArray.size / 10 - 1)
     }
 
     private fun savePosition() {
-        Log.d(TAG, "#savePosition")
         for (p in mPlayersBlue) {
             val playerData = PlayerData(
                 0, 1, mIndex, ColorEnum.BLUE.id, p!!.mId, p.mName.toString(),
@@ -252,7 +281,6 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun playMovie() {
-        Log.d(TAG, "#playMovie")
         for (playerData in mPlayerDataArray) {
             val color = playerData.playerColor
             val playerId = playerData.playerId
@@ -276,13 +304,13 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }
         }
+
         for (player in mPlayersBlue) {
             player!!.play()
         }
         for (player in mPlayersRed) {
             player!!.play()
         }
-
     }
 
     private fun saveMovie() {

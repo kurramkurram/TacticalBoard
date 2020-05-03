@@ -30,6 +30,7 @@ class Player(
     private val mLayout: LinearLayout
     private val mAnimation = PlayerAnimation()
     private val mAnimationArray = ArrayList<Array<Int>>()
+    private lateinit var mListener: OnAnimationCallback
 
     init {
         val inflater = LayoutInflater.from(context)
@@ -75,12 +76,29 @@ class Player(
         mAnimationArray.clear()
     }
 
+    override fun next(index: Int) {
+        val color = if (mParams.gravity == Gravity.BOTTOM or Gravity.START) {
+            ColorEnum.RED.id
+        } else {
+            ColorEnum.BLUE.id
+        }
+        mListener.next(index, mId, color)
+    }
+
+    fun setListener(listener: OnAnimationCallback) {
+        mListener = listener
+    }
+
     fun put(point: Array<Int>) {
         mAnimationArray.add(point)
     }
 
     fun play() {
         mAnimation.startAnimation(mAnimationArray)
+    }
+
+    fun next() {
+        mAnimation.next()
     }
 
     private fun isAttachedToWindow() = mPlayer.isAttachedToWindow
@@ -93,10 +111,6 @@ class Player(
 
     fun setName(name: String?) {
         mName.text = name
-    }
-
-    fun setIcon(resourceId: Int) {
-        mIcon.setImageResource(resourceId)
     }
 
     private fun getLayoutParams(): WindowManager.LayoutParams {
@@ -112,5 +126,9 @@ class Player(
             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
             PixelFormat.TRANSLUCENT
         )
+    }
+
+    interface OnAnimationCallback {
+        fun next(index: Int, id: Int, color: Int)
     }
 }
