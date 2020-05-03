@@ -11,6 +11,7 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.SeekBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -44,6 +45,8 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
         )
 
         private const val TAG = "FutsalCortActivity"
+
+        private const val VIEW_SIZE = 10
     }
 
     private lateinit var mWindowManager: WindowManager
@@ -54,6 +57,7 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
     private lateinit var mDeleteIcon: ImageView
     private lateinit var mLine: DrawLine
 
+    private lateinit var mSeekBar: SeekBar
     private lateinit var mMovieIndex: TextView
 
     private val mScope = CoroutineScope(Dispatchers.Default)
@@ -97,6 +101,8 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
         cancelMovie.setOnClickListener(this)
 
         mMovieLayout = findViewById(R.id.futsal_cort_movie_layout)
+        mSeekBar = findViewById(R.id.seek_bar_movie_edit)
+        mSeekBar.isEnabled = false
 
         mMovieIndex = findViewById(R.id.index_play_movie_edit)
     }
@@ -215,14 +221,15 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
     @SuppressLint("SetTextI18n")
     @Synchronized
     override fun next(index: Int, id: Int, color: Int) {
-        val key = color * 10 + id
+        val key = color * VIEW_SIZE + id
         mFinishedMap.put(key, true)
-        if (mFinishedMap.size() == 10) {
+        if (mFinishedMap.size() == VIEW_SIZE) {
             mFinishedMap.clear()
 
-            val max = mPlayerDataArray.size / 10 - 1
+            val max = mPlayerDataArray.size / VIEW_SIZE - 1
             if (index <= max) {
                 mMovieIndex.text = "$index/$max"
+                mSeekBar.progress = index
             }
 
             for (player in mPlayersBlue) {
@@ -260,7 +267,7 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
     private fun addMovie() {
         mIndex++
         savePosition()
-        mMovieIndex.text = "0/" + (mPlayerDataArray.size / 10 - 1)
+        mMovieIndex.text = "0/" + (mPlayerDataArray.size / VIEW_SIZE - 1)
     }
 
     private fun savePosition() {
@@ -311,6 +318,7 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
         for (player in mPlayersRed) {
             player!!.play()
         }
+        mSeekBar.max = mPlayerDataArray.size / VIEW_SIZE - 1
     }
 
     private fun saveMovie() {

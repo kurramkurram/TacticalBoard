@@ -23,15 +23,17 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginEnd="10dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:progress="0" />
 
     <TextView
         android:id="@+id/index_play_movie_edit"
         style="@style/MovieCommon"
         android:layout_width="@dimen/cort_movie_index_width"
-        android:textColor="@color/tactical_board_default_text_color"
         android:layout_gravity="center_vertical"
-        android:gravity="center" />
+        android:gravity="center"
+        android:text="@string/movie_index_default"
+        android:textColor="@android:color/white" />
 
     <ImageView
         android:id="@+id/save_movie_edit"
