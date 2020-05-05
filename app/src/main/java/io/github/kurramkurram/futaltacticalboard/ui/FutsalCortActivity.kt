@@ -1,6 +1,7 @@
 package io.github.kurramkurram.futaltacticalboard.ui
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -21,8 +22,7 @@ import io.github.kurramkurram.futaltacticalboard.Preference
 import io.github.kurramkurram.futaltacticalboard.R
 import io.github.kurramkurram.futaltacticalboard.db.PlayerData
 import io.github.kurramkurram.futaltacticalboard.db.PlayerDataDatabase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
@@ -45,6 +45,8 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
         )
 
         private const val TAG = "FutsalCortActivity"
+        private const val MOVIE_FOLDER_LIST_REQUEST = 0
+        const val KEY_BACKGROUND_COLOR = "key_background_color"
 
         private const val VIEW_SIZE = 10
     }
@@ -60,8 +62,9 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
     private lateinit var mSeekBar: SeekBar
     private lateinit var mMovieIndex: TextView
 
-    private val mScope = CoroutineScope(Dispatchers.Default)
     private lateinit var mMovieLayout: LinearLayout
+
+    private var mBackgroundColor: Int = 0
 
     private var mPlayerDataArray: ArrayList<PlayerData> = ArrayList()
 
@@ -81,6 +84,9 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
 
         val createMovie = findViewById<ImageView>(R.id.futsal_cort_create_movie)
         createMovie.setOnClickListener(this)
+
+        val movieFolder = findViewById<ImageView>(R.id.futsal_cort_movie_folder)
+        movieFolder.setOnClickListener(this)
 
         mDrawIcon = findViewById(R.id.futsal_cort_draw_line)
         mDrawIcon.setOnClickListener(this)
@@ -116,11 +122,11 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
         val background = findViewById<ImageView>(R.id.futsal_cort_background)
 
         val backgroundArray = resources.obtainTypedArray(R.array.tactical_board_background_array)
-        val color = backgroundArray.getColor(backgroundIndex, -1)
-        background.setBackgroundColor(color)
+        mBackgroundColor = backgroundArray.getColor(backgroundIndex, -1)
+        background.setBackgroundColor(mBackgroundColor)
         backgroundArray.recycle()
 
-        mMovieLayout.setBackgroundColor(color)
+        mMovieLayout.setBackgroundColor(mBackgroundColor)
 
         val isHalf = Preference.get(context, Preference.KEY_HALF_CORT, false)
 
@@ -189,6 +195,19 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
         mPlayersRed = arrayOfNulls(PLAYER_RED_ARRAY.size)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when {
+            requestCode == MOVIE_FOLDER_LIST_REQUEST
+                    && resultCode == Activity.RESULT_OK -> {
+                val groupId = data!!.getIntExtra(MovieFolderListActivity.KEY_RESULT_POSITION, -1)
+                if (groupId != -1) {
+                    selectTask(groupId)
+                }
+            }
+        }
+    }
+
     override fun onClick(v: View?) {
         when (v!!.id) {
             R.id.futsal_cort_setting -> {
@@ -196,6 +215,9 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
             }
             R.id.futsal_cort_create_movie -> {
                 createMovie()
+            }
+            R.id.futsal_cort_movie_folder -> {
+                startMovieList()
             }
             R.id.add_movie_edit -> {
                 addMovie()
@@ -253,24 +275,30 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
         savePosition()
     }
 
+    private fun startMovieList() {
+        val intent = Intent(this, MovieFolderListActivity::class.java)
+        intent.putExtra(KEY_BACKGROUND_COLOR, mBackgroundColor)
+        startActivityForResult(intent, MOVIE_FOLDER_LIST_REQUEST)
+    }
+
     @SuppressLint("SetTextI18n")
     private fun addMovie() {
         mIndex++
         savePosition()
-        mMovieIndex.text = "0/" + (mPlayerDataArray.size / VIEW_SIZE - 1)
+        mMovieIndex.text = "0/$mIndex"
     }
 
     private fun savePosition() {
         for (p in mPlayersBlue) {
             val playerData = PlayerData(
-                0, 1, mIndex, ColorEnum.BLUE.id, p!!.mId, p.mName.toString(),
+                0, 1, mIndex, ColorEnum.BLUE.id, p!!.mId, p.mName.text.toString(),
                 p.mParams.x, p.mParams.y
             )
             mPlayerDataArray.add(playerData)
         }
         for (p in mPlayersRed) {
             val playerData = PlayerData(
-                0, 1, mIndex, ColorEnum.RED.id, p!!.mId, p.mName.toString(),
+                0, 1, mIndex, ColorEnum.RED.id, p!!.mId, p.mName.text.toString(),
                 p.mParams.x, p.mParams.y
             )
             mPlayerDataArray.add(playerData)
@@ -312,12 +340,13 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     private fun saveMovie() {
-        mScope.launch {
+        GlobalScope.launch {
             try {
                 val db = PlayerDataDatabase.getDatabases(applicationContext)
                 val playerDao = db.playerDao()
-                playerDao.insert(mPlayerDataArray)
-                Log.d("FutsalCortActivity", "#saveTask -- end --")
+                for (p in mPlayerDataArray) {
+                    playerDao.insert(p)
+                }
             } catch (e: Exception) {
                 Log.e("FutsalCortActivity", "#saveTask", e)
             }
@@ -328,10 +357,14 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
         mMovieLayout.visibility = View.GONE
     }
 
+    @SuppressLint("SetTextI18n")
     private fun selectTask(groupId: Int) {
-        val db = PlayerDataDatabase.getDatabases(applicationContext)
+        Log.d(TAG, "#selectTask groupId = $groupId")
+        val db = PlayerDataDatabase.getAllowMainThreadDatabases(applicationContext)
         val playerDao = db.playerDao()
         mPlayerDataArray = playerDao.selectGroup(groupId) as ArrayList<PlayerData>
+        mMovieLayout.visibility = View.VISIBLE
+        mMovieIndex.text = "0/" + (mPlayerDataArray.size - 1)
     }
 
     private fun drawLine() {

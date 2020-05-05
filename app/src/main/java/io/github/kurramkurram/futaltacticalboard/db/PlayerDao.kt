@@ -6,7 +6,7 @@ import androidx.room.Query
 
 @Dao
 interface PlayerDao {
-    @Query("SELECT * from t_player_info WHERE group_id = :groupId ")
+    @Query("SELECT * FROM t_player_info WHERE group_id = :groupId ")
     fun selectGroup(groupId: Int): List<PlayerData>
 
     @Query("SELECT * FROM t_player_info")
@@ -14,6 +14,9 @@ interface PlayerDao {
 
     @Insert
     suspend fun insert(playerData: List<PlayerData>)
+
+    @Insert
+    suspend fun insert(playerData: PlayerData)
 
     @Query("DELETE FROM t_player_info WHERE group_id = :groupId")
     suspend fun delete(groupId: Int)

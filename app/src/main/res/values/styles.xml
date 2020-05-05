@@ -53,4 +53,12 @@
         <item name="android:padding">@dimen/cort_icon_padding</item>
         <item name="android:paddingTop">@dimen/cort_icon_padding_top</item>
     </style>
+
+    <style name="SavedMovieListStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:layout_margin">10dp</item>
+    </style>
 </resources>
