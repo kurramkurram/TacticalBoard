@@ -7,7 +7,7 @@ import androidx.room.Query
 @Dao
 interface PlayerDao {
     @Query("SELECT * FROM t_player_info WHERE group_id = :groupId ")
-    fun selectGroup(groupId: Int): List<PlayerData>
+    fun selectGroup(groupId: Long): List<PlayerData>
 
     @Query("SELECT * FROM t_player_info")
     fun selectALL(): List<PlayerData>

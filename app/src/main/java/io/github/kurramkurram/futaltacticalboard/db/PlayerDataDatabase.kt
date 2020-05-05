@@ -4,9 +4,6 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.sqlite.db.SupportSQLiteDatabase
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 @Database(
     entities = [PlayerData::class, SavedMovieListData::class],
@@ -35,7 +32,7 @@ abstract class PlayerDataDatabase : RoomDatabase() {
                     context.applicationContext,
                     PlayerDataDatabase::class.java,
                     "player_data.db"
-                ).addCallback(sRoomDatabaseCallback).build()
+                ).build()
                 INSTANCE = instance
                 return instance
             }
@@ -54,19 +51,6 @@ abstract class PlayerDataDatabase : RoomDatabase() {
                 ).allowMainThreadQueries().build()
                 MAIN_THREAD_INSTANCE = instance
                 return instance
-            }
-        }
-
-        private val sRoomDatabaseCallback = object : RoomDatabase.Callback() {
-            override fun onOpen(db: SupportSQLiteDatabase) {
-                super.onOpen(db)
-
-                GlobalScope.launch {
-                    val savedMovieListDao = INSTANCE!!.savedMovieListDao()
-//                    savedMovieListDao.delete()
-                    val savedMovieListData = SavedMovieListData(0, 1, "タイトル", "テスト")
-                    savedMovieListDao.insert(savedMovieListData)
-                }
             }
         }
     }

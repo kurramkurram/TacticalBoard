@@ -38,7 +38,8 @@ class MovieFolderListActivity : AppCompatActivity() {
                 listView.adapter = arrayAdapter
                 listView.setOnItemClickListener { _, _, position, _ ->
                     val intent = Intent()
-                    intent.putExtra(KEY_RESULT_POSITION, position)
+                    val groupId = t[position].groupId
+                    intent.putExtra(KEY_RESULT_POSITION, groupId)
                     setResult(Activity.RESULT_OK, intent)
                     finish()
                 }

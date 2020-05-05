@@ -72,6 +72,7 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
 
     private var mPlayerDataArray: ArrayList<PlayerData> = ArrayList()
 
+    private var mGroupId = 0L
     private var mIndex = 0
     private var mFinishedMap = SparseArray<Any>()
 
@@ -204,8 +205,8 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
         when {
             requestCode == MOVIE_FOLDER_LIST_REQUEST
                     && resultCode == Activity.RESULT_OK -> {
-                val groupId = data!!.getIntExtra(MovieFolderListActivity.KEY_RESULT_POSITION, -1)
-                if (groupId != -1) {
+                val groupId = data!!.getLongExtra(MovieFolderListActivity.KEY_RESULT_POSITION, -1)
+                if (groupId != -1L) {
                     selectTask(groupId)
                 }
             }
@@ -282,11 +283,12 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
                 val formatted = sdf.format(date)
 
                 val savedMovieListDao = db.savedMovieListDao()
-                savedMovieListDao.insert(SavedMovieListData(0, 1, title, formatted))
+                savedMovieListDao.insert(SavedMovieListData(0, mGroupId, title, formatted))
             } catch (e: Exception) {
                 Log.e("FutsalCortActivity", "#saveTask", e)
             }
         }
+        mIndex = 0
     }
 
     private fun startSetting() {
@@ -298,6 +300,7 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
         mMovieLayout.visibility = View.VISIBLE
         mPlayerDataArray = ArrayList()
         mIndex = 0
+        mGroupId = System.currentTimeMillis()
         savePosition()
     }
 
@@ -317,14 +320,14 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
     private fun savePosition() {
         for (p in mPlayersBlue) {
             val playerData = PlayerData(
-                0, 1, mIndex, ColorEnum.BLUE.id, p!!.mId, p.mName.text.toString(),
+                0, mGroupId, mIndex, ColorEnum.BLUE.id, p!!.mId, p.mName.text.toString(),
                 p.mParams.x, p.mParams.y
             )
             mPlayerDataArray.add(playerData)
         }
         for (p in mPlayersRed) {
             val playerData = PlayerData(
-                0, 1, mIndex, ColorEnum.RED.id, p!!.mId, p.mName.text.toString(),
+                0, mGroupId, mIndex, ColorEnum.RED.id, p!!.mId, p.mName.text.toString(),
                 p.mParams.x, p.mParams.y
             )
             mPlayerDataArray.add(playerData)
@@ -371,15 +374,16 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
 
     private fun cancelMovie() {
         mMovieLayout.visibility = View.GONE
+        mIndex = 0
     }
 
     @SuppressLint("SetTextI18n")
-    private fun selectTask(groupId: Int) {
+    private fun selectTask(groupId: Long) {
         val db = PlayerDataDatabase.getAllowMainThreadDatabases(applicationContext)
         val playerDao = db.playerDao()
         mPlayerDataArray = playerDao.selectGroup(groupId) as ArrayList<PlayerData>
         mMovieLayout.visibility = View.VISIBLE
-        mMovieIndex.text = "0/" + (mPlayerDataArray.size - 1)
+        mMovieIndex.text = "0/" + (mPlayerDataArray.size / VIEW_SIZE - 1)
     }
 
     private fun drawLine() {
