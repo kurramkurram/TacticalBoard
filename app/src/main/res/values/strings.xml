@@ -18,4 +18,7 @@
     <string name="setting_team_edit_ok">OK</string>
 
     <string name="app_info">About This App</string>
+
+    <string name="save_movie_dialog_title_hint">Title</string>
+    <string name="save_movie_dialog_title">Set Title</string>
 </resources>

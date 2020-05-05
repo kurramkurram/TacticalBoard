@@ -22,11 +22,15 @@ import io.github.kurramkurram.futaltacticalboard.Preference
 import io.github.kurramkurram.futaltacticalboard.R
 import io.github.kurramkurram.futaltacticalboard.db.PlayerData
 import io.github.kurramkurram.futaltacticalboard.db.PlayerDataDatabase
+import io.github.kurramkurram.futaltacticalboard.db.SavedMovieListData
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
-    Player.OnAnimationCallback {
+    Player.OnAnimationCallback, SaveMovieDialogFragment.OnDialogResultCallback {
 
     companion object {
         val PLAYER_RED_ARRAY = arrayOf(
@@ -263,6 +267,28 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
         }
     }
 
+    @SuppressLint("SimpleDateFormat")
+    override fun onPositiveButtonClicked(title: String) {
+        GlobalScope.launch {
+            try {
+                val db = PlayerDataDatabase.getDatabases(applicationContext)
+                val playerDao = db.playerDao()
+                for (p in mPlayerDataArray) {
+                    playerDao.insert(p)
+                }
+
+                val sdf = SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
+                val date = Date(System.currentTimeMillis())
+                val formatted = sdf.format(date)
+
+                val savedMovieListDao = db.savedMovieListDao()
+                savedMovieListDao.insert(SavedMovieListData(0, 1, title, formatted))
+            } catch (e: Exception) {
+                Log.e("FutsalCortActivity", "#saveTask", e)
+            }
+        }
+    }
+
     private fun startSetting() {
         val intent = Intent(this, SettingActivity::class.java)
         startActivity(intent)
@@ -340,17 +366,7 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     private fun saveMovie() {
-        GlobalScope.launch {
-            try {
-                val db = PlayerDataDatabase.getDatabases(applicationContext)
-                val playerDao = db.playerDao()
-                for (p in mPlayerDataArray) {
-                    playerDao.insert(p)
-                }
-            } catch (e: Exception) {
-                Log.e("FutsalCortActivity", "#saveTask", e)
-            }
-        }
+        SaveMovieDialogFragment().show(this)
     }
 
     private fun cancelMovie() {
@@ -359,7 +375,6 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
 
     @SuppressLint("SetTextI18n")
     private fun selectTask(groupId: Int) {
-        Log.d(TAG, "#selectTask groupId = $groupId")
         val db = PlayerDataDatabase.getAllowMainThreadDatabases(applicationContext)
         val playerDao = db.playerDao()
         mPlayerDataArray = playerDao.selectGroup(groupId) as ArrayList<PlayerData>
