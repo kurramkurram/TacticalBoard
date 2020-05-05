@@ -288,7 +288,23 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
                 Log.e("FutsalCortActivity", "#saveTask", e)
             }
         }
+        mMovieLayout.visibility = View.GONE
         mIndex = 0
+        onDialogCallbackCommon()
+    }
+
+    override fun onNegativeButtonClicked() {
+        onDialogCallbackCommon()
+    }
+
+    private fun onDialogCallbackCommon() {
+        Log.d(TAG, "#onDialogCallbackCommon")
+        for (player in mPlayersBlue) {
+            player!!.add()
+        }
+        for (player in mPlayersRed) {
+            player!!.add()
+        }
     }
 
     private fun startSetting() {
@@ -296,10 +312,12 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
         startActivity(intent)
     }
 
+    @SuppressLint("SetTextI18n")
     private fun createMovie() {
         mMovieLayout.visibility = View.VISIBLE
         mPlayerDataArray = ArrayList()
         mIndex = 0
+        mMovieIndex.text = "0/$mIndex"
         mGroupId = System.currentTimeMillis()
         savePosition()
     }
@@ -313,8 +331,8 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
     @SuppressLint("SetTextI18n")
     private fun addMovie() {
         mIndex++
-        savePosition()
         mMovieIndex.text = "0/$mIndex"
+        savePosition()
     }
 
     private fun savePosition() {
@@ -370,6 +388,12 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
 
     private fun saveMovie() {
         SaveMovieDialogFragment().show(this)
+        for (player in mPlayersBlue) {
+            player!!.remove()
+        }
+        for (player in mPlayersRed) {
+            player!!.remove()
+        }
     }
 
     private fun cancelMovie() {

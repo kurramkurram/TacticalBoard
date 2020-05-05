@@ -41,6 +41,11 @@ class SaveMovieDialogFragment : DialogFragment(), DialogInterface.OnClickListene
         return builder.create()
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        dialog!!.setCanceledOnTouchOutside(false)
+    }
+
     override fun onClick(dialog: DialogInterface?, which: Int) {
         when (which) {
             DialogInterface.BUTTON_POSITIVE -> {
@@ -52,6 +57,11 @@ class SaveMovieDialogFragment : DialogFragment(), DialogInterface.OnClickListene
                 dismiss()
             }
             DialogInterface.BUTTON_NEGATIVE -> {
+                val target = activity
+                if (target is OnDialogResultCallback) {
+                    val callback = target as OnDialogResultCallback
+                    callback.onNegativeButtonClicked()
+                }
                 dismiss()
             }
         }
@@ -59,5 +69,7 @@ class SaveMovieDialogFragment : DialogFragment(), DialogInterface.OnClickListene
 
     interface OnDialogResultCallback {
         fun onPositiveButtonClicked(title: String)
+
+        fun onNegativeButtonClicked()
     }
 }

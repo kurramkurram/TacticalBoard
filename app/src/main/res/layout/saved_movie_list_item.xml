@@ -7,11 +7,19 @@
     <TextView
         android:id="@+id/saved_movie_list_title"
         style="@style/SavedMovieListStyle"
+        android:layout_marginStart="@dimen/movie_list_item_margin"
+        android:layout_marginTop="@dimen/movie_list_item_margin"
+        android:layout_marginEnd="@dimen/movie_list_item_margin"
+        android:layout_marginBottom="@dimen/movie_list_item_margin_bottom"
         android:textColor="@android:color/white"
-        android:textSize="25sp" />
+        android:textSize="@dimen/movie_list_item_text_size" />
 
     <TextView
         android:id="@+id/saved_movie_list_date"
         style="@style/SavedMovieListStyle"
-        android:textSize="15sp" />
+        android:layout_marginStart="@dimen/movie_list_item_margin"
+        android:layout_marginTop="@dimen/movie_list_item_date_margin_top"
+        android:layout_marginEnd="@dimen/movie_list_item_margin"
+        android:layout_marginBottom="@dimen/movie_list_item_margin"
+        android:textSize="@dimen/movie_list_item_date_text_size" />
 </LinearLayout>
