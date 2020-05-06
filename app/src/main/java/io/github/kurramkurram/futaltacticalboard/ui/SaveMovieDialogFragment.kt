@@ -51,16 +51,14 @@ class SaveMovieDialogFragment : DialogFragment(), DialogInterface.OnClickListene
             DialogInterface.BUTTON_POSITIVE -> {
                 val target = activity
                 if (target is OnDialogResultCallback) {
-                    val callback = target as OnDialogResultCallback
-                    callback.onPositiveButtonClicked(mEditTitle.text.toString())
+                    target.onPositiveButtonClicked(mEditTitle.text.toString())
                 }
                 dismiss()
             }
             DialogInterface.BUTTON_NEGATIVE -> {
                 val target = activity
                 if (target is OnDialogResultCallback) {
-                    val callback = target as OnDialogResultCallback
-                    callback.onNegativeButtonClicked()
+                    target.onNegativeButtonClicked()
                 }
                 dismiss()
             }

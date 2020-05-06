@@ -285,7 +285,7 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
                 val savedMovieListDao = db.savedMovieListDao()
                 savedMovieListDao.insert(SavedMovieListData(0, mGroupId, title, formatted))
             } catch (e: Exception) {
-                Log.e("FutsalCortActivity", "#saveTask", e)
+                Log.e(TAG, "#saveTask", e)
             }
         }
         mMovieLayout.visibility = View.GONE
@@ -298,7 +298,6 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     private fun onDialogCallbackCommon() {
-        Log.d(TAG, "#onDialogCallbackCommon")
         for (player in mPlayersBlue) {
             player!!.add()
         }
