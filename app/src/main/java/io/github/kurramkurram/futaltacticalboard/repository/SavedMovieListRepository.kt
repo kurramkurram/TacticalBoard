@@ -10,14 +10,9 @@ import kotlinx.coroutines.launch
 
 class SavedMovieListRepository(application: Application) {
 
-    private val mDao: SavedMovieListDao
-    private val mLiveData: LiveData<List<SavedMovieListData>>
-
-    init {
-        val db = PlayerDataDatabase.getDatabases(application)
-        mDao = db.savedMovieListDao()
-        mLiveData = mDao.selectAll()
-    }
+    private val mDb: PlayerDataDatabase = PlayerDataDatabase.getDatabases(application)
+    private val mDao: SavedMovieListDao = mDb.savedMovieListDao()
+    private val mLiveData: LiveData<List<SavedMovieListData>> = mDao.selectAll()
 
     fun getLiveData(): LiveData<List<SavedMovieListData>> = mLiveData
 
