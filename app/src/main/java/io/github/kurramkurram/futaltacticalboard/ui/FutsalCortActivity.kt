@@ -22,7 +22,7 @@ import io.github.kurramkurram.futaltacticalboard.Preference
 import io.github.kurramkurram.futaltacticalboard.R
 import io.github.kurramkurram.futaltacticalboard.db.PlayerData
 import io.github.kurramkurram.futaltacticalboard.db.PlayerDataDatabase
-import io.github.kurramkurram.futaltacticalboard.db.SavedMovieListData
+import io.github.kurramkurram.futaltacticalboard.db.SavedVideoListData
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -30,7 +30,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
-    Player.OnAnimationCallback, SaveMovieDialogFragment.OnDialogResultCallback {
+    Player.OnAnimationCallback, SavedVideoDialogFragment.OnDialogResultCallback {
 
     companion object {
         val PLAYER_RED_ARRAY = arrayOf(
@@ -49,7 +49,7 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
         )
 
         private const val TAG = "FutsalCortActivity"
-        private const val MOVIE_FOLDER_LIST_REQUEST = 0
+        private const val VIDEO_FOLDER_LIST_REQUEST = 0
         const val KEY_BACKGROUND_COLOR = "key_background_color"
 
         private const val VIEW_SIZE = 10
@@ -64,9 +64,9 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
     private lateinit var mLine: DrawLine
 
     private lateinit var mSeekBar: SeekBar
-    private lateinit var mMovieIndex: TextView
+    private lateinit var mVideoIndex: TextView
 
-    private lateinit var mMovieLayout: LinearLayout
+    private lateinit var mVideoLayout: LinearLayout
 
     private var mBackgroundColor: Int = 0
 
@@ -87,11 +87,11 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
         val settings = findViewById<ImageView>(R.id.futsal_cort_setting)
         settings.setOnClickListener(this)
 
-        val createMovie = findViewById<ImageView>(R.id.futsal_cort_create_movie)
-        createMovie.setOnClickListener(this)
+        val createVideo = findViewById<ImageView>(R.id.futsal_cort_create_video)
+        createVideo.setOnClickListener(this)
 
-        val movieFolder = findViewById<ImageView>(R.id.futsal_cort_movie_folder)
-        movieFolder.setOnClickListener(this)
+        val videoFolder = findViewById<ImageView>(R.id.futsal_cort_video_folder)
+        videoFolder.setOnClickListener(this)
 
         mDrawIcon = findViewById(R.id.futsal_cort_draw_line)
         mDrawIcon.setOnClickListener(this)
@@ -99,23 +99,23 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
         mDeleteIcon = findViewById(R.id.futsal_cort_delete_line)
         mDeleteIcon.setOnClickListener(this)
 
-        val addMovie = findViewById<ImageView>(R.id.add_movie_edit)
-        addMovie.setOnClickListener(this)
+        val addVideo = findViewById<ImageView>(R.id.add_video_edit)
+        addVideo.setOnClickListener(this)
 
-        val playMovie = findViewById<ImageView>(R.id.play_movie_edit)
-        playMovie.setOnClickListener(this)
+        val playVideo = findViewById<ImageView>(R.id.play_video_edit)
+        playVideo.setOnClickListener(this)
 
-        val saveMovie = findViewById<ImageView>(R.id.save_movie_edit)
-        saveMovie.setOnClickListener(this)
+        val saveVideo = findViewById<ImageView>(R.id.save_video_edit)
+        saveVideo.setOnClickListener(this)
 
-        val cancelMovie = findViewById<ImageView>(R.id.cancel_movie_edit)
-        cancelMovie.setOnClickListener(this)
+        val cancelVideo = findViewById<ImageView>(R.id.cancel_video_edit)
+        cancelVideo.setOnClickListener(this)
 
-        mMovieLayout = findViewById(R.id.futsal_cort_movie_layout)
-        mSeekBar = findViewById(R.id.seek_bar_movie_edit)
+        mVideoLayout = findViewById(R.id.futsal_cort_video_layout)
+        mSeekBar = findViewById(R.id.seek_bar_video_edit)
         mSeekBar.isEnabled = false
 
-        mMovieIndex = findViewById(R.id.index_play_movie_edit)
+        mVideoIndex = findViewById(R.id.index_play_video_edit)
     }
 
     override fun onResume() {
@@ -131,7 +131,7 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
         background.setBackgroundColor(mBackgroundColor)
         backgroundArray.recycle()
 
-        mMovieLayout.setBackgroundColor(mBackgroundColor)
+        mVideoLayout.setBackgroundColor(mBackgroundColor)
 
         val isHalf = Preference.get(context, Preference.KEY_HALF_CORT, false)
 
@@ -203,9 +203,9 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when {
-            requestCode == MOVIE_FOLDER_LIST_REQUEST
+            requestCode == VIDEO_FOLDER_LIST_REQUEST
                     && resultCode == Activity.RESULT_OK -> {
-                val groupId = data!!.getLongExtra(MovieFolderListActivity.KEY_RESULT_POSITION, -1)
+                val groupId = data!!.getLongExtra(VideoFolderListActivity.KEY_RESULT_POSITION, -1)
                 if (groupId != -1L) {
                     selectTask(groupId)
                 }
@@ -218,23 +218,23 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
             R.id.futsal_cort_setting -> {
                 startSetting()
             }
-            R.id.futsal_cort_create_movie -> {
-                createMovie()
+            R.id.futsal_cort_create_video -> {
+                createVideo()
             }
-            R.id.futsal_cort_movie_folder -> {
-                startMovieList()
+            R.id.futsal_cort_video_folder -> {
+                startVideoList()
             }
-            R.id.add_movie_edit -> {
-                addMovie()
+            R.id.add_video_edit -> {
+                addVideo()
             }
-            R.id.play_movie_edit -> {
-                playMovie()
+            R.id.play_video_edit -> {
+                playVideo()
             }
-            R.id.save_movie_edit -> {
-                saveMovie()
+            R.id.save_video_edit -> {
+                saveVideo()
             }
-            R.id.cancel_movie_edit -> {
-                cancelMovie()
+            R.id.cancel_video_edit -> {
+                cancelVideo()
             }
             R.id.futsal_cort_draw_line -> {
                 drawLine()
@@ -255,7 +255,7 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
 
             val max = mPlayerDataArray.size / VIEW_SIZE - 1
             if (index <= max) {
-                mMovieIndex.text = "$index/$max"
+                mVideoIndex.text = "$index/$max"
                 mSeekBar.progress = index
             }
 
@@ -282,13 +282,13 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
                 val date = Date(System.currentTimeMillis())
                 val formatted = sdf.format(date)
 
-                val savedMovieListDao = db.savedMovieListDao()
-                savedMovieListDao.insert(SavedMovieListData(0, mGroupId, title, formatted))
+                val savedVideoListDao = db.savedVideoListDao()
+                savedVideoListDao.insert(SavedVideoListData(0, mGroupId, title, formatted))
             } catch (e: Exception) {
                 Log.e(TAG, "#saveTask", e)
             }
         }
-        mMovieLayout.visibility = View.GONE
+        mVideoLayout.visibility = View.GONE
         mIndex = 0
         onDialogCallbackCommon()
     }
@@ -312,25 +312,25 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     @SuppressLint("SetTextI18n")
-    private fun createMovie() {
-        mMovieLayout.visibility = View.VISIBLE
+    private fun createVideo() {
+        mVideoLayout.visibility = View.VISIBLE
         mPlayerDataArray = ArrayList()
         mIndex = 0
-        mMovieIndex.text = "0/$mIndex"
+        mVideoIndex.text = "0/$mIndex"
         mGroupId = System.currentTimeMillis()
         savePosition()
     }
 
-    private fun startMovieList() {
-        val intent = Intent(this, MovieFolderListActivity::class.java)
+    private fun startVideoList() {
+        val intent = Intent(this, VideoFolderListActivity::class.java)
         intent.putExtra(KEY_BACKGROUND_COLOR, mBackgroundColor)
-        startActivityForResult(intent, MOVIE_FOLDER_LIST_REQUEST)
+        startActivityForResult(intent, VIDEO_FOLDER_LIST_REQUEST)
     }
 
     @SuppressLint("SetTextI18n")
-    private fun addMovie() {
+    private fun addVideo() {
         mIndex++
-        mMovieIndex.text = "0/$mIndex"
+        mVideoIndex.text = "0/$mIndex"
         savePosition()
     }
 
@@ -351,7 +351,7 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
         }
     }
 
-    private fun playMovie() {
+    private fun playVideo() {
         for (playerData in mPlayerDataArray) {
             val color = playerData.playerColor
             val playerId = playerData.playerId
@@ -385,8 +385,8 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
         mSeekBar.max = mPlayerDataArray.size / VIEW_SIZE - 1
     }
 
-    private fun saveMovie() {
-        SaveMovieDialogFragment().show(this)
+    private fun saveVideo() {
+        SavedVideoDialogFragment().show(this)
         for (player in mPlayersBlue) {
             player!!.remove()
         }
@@ -395,8 +395,8 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
         }
     }
 
-    private fun cancelMovie() {
-        mMovieLayout.visibility = View.GONE
+    private fun cancelVideo() {
+        mVideoLayout.visibility = View.GONE
         mIndex = 0
     }
 
@@ -405,8 +405,8 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
         val db = PlayerDataDatabase.getAllowMainThreadDatabases(applicationContext)
         val playerDao = db.playerDao()
         mPlayerDataArray = playerDao.selectGroup(groupId) as ArrayList<PlayerData>
-        mMovieLayout.visibility = View.VISIBLE
-        mMovieIndex.text = "0/" + (mPlayerDataArray.size / VIEW_SIZE - 1)
+        mVideoLayout.visibility = View.VISIBLE
+        mVideoIndex.text = "0/" + (mPlayerDataArray.size / VIEW_SIZE - 1)
     }
 
     private fun drawLine() {

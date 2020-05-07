@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">FutalTacticalBoard</string>
 
-    <string name="movie_index_default">0/0</string>
+    <string name="video_index_default">0/0</string>
 
     <string name="setting_cort_edit_cort_color_title">CORT COLOR : </string>
     <string name="setting_cort_edit_half_cort_title">HALF CORT : </string>
@@ -19,6 +19,7 @@
 
     <string name="app_info">About This App</string>
 
-    <string name="save_movie_dialog_title_hint">Title</string>
-    <string name="save_movie_dialog_title">Set Title</string>
+    <string name="save_video_no_exist_text">There are no saved video data.</string>
+    <string name="save_video_dialog_title_hint">Title</string>
+    <string name="save_video_dialog_title">Set Title</string>
 </resources>

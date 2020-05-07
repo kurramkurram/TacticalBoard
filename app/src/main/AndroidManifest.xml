@@ -38,7 +38,7 @@
             android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
             android:theme="@style/ActionBarMain" />
 
-        <activity android:name=".ui.MovieFolderListActivity"/>
+        <activity android:name=".ui.VideoFolderListActivity"/>
     </application>
 
 </manifest>

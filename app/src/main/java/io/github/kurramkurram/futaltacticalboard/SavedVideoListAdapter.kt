@@ -6,13 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
-import io.github.kurramkurram.futaltacticalboard.db.SavedMovieListData
+import io.github.kurramkurram.futaltacticalboard.db.SavedVideoListData
 
-class SavedMovieListAdapter(
+class SavedVideoListAdapter(
     context: Context,
     resource: Int,
-    items: List<SavedMovieListData>
-) : ArrayAdapter<SavedMovieListData>(context, resource, items) {
+    items: List<SavedVideoListData>
+) : ArrayAdapter<SavedVideoListData>(context, resource, items) {
 
     private val mResource = resource
     private val mItems = items
@@ -26,10 +26,10 @@ class SavedMovieListAdapter(
         }
 
         val item = mItems[position]
-        val title = view!!.findViewById<TextView>(R.id.saved_movie_list_title)
+        val title = view!!.findViewById<TextView>(R.id.saved_video_list_title)
         title.text = item.title
 
-        val date = view.findViewById<TextView>(R.id.saved_movie_list_date)
+        val date = view.findViewById<TextView>(R.id.saved_video_list_date)
         date.text = item.date
 
         return view

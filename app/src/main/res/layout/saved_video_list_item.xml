@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/saved_video_list_title"
+        style="@style/SavedVideoListStyle"
+        android:layout_marginStart="@dimen/video_list_item_margin"
+        android:layout_marginTop="@dimen/video_list_item_margin"
+        android:layout_marginEnd="@dimen/video_list_item_margin"
+        android:layout_marginBottom="@dimen/video_list_item_margin_bottom"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/video_list_item_text_size" />
+
+    <TextView
+        android:id="@+id/saved_video_list_date"
+        style="@style/SavedVideoListStyle"
+        android:layout_marginStart="@dimen/video_list_item_margin"
+        android:layout_marginTop="@dimen/video_list_item_date_margin_top"
+        android:layout_marginEnd="@dimen/video_list_item_margin"
+        android:layout_marginBottom="@dimen/video_list_item_margin"
+        android:textSize="@dimen/video_list_item_date_text_size" />
+</LinearLayout>

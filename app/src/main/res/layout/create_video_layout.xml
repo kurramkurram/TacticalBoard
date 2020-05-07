@@ -3,22 +3,22 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/tactical_board_color_main"
-    android:elevation="@dimen/cort_movie_layout_elevation"
+    android:elevation="@dimen/cort_video_layout_elevation"
     android:gravity="center_vertical"
     android:orientation="horizontal">
 
     <ImageView
-        android:id="@+id/add_movie_edit"
-        style="@style/MovieCommon"
+        android:id="@+id/add_video_edit"
+        style="@style/VideoCommon"
         android:src="@drawable/ic_add" />
 
     <ImageView
-        android:id="@+id/play_movie_edit"
-        style="@style/MovieCommon"
+        android:id="@+id/play_video_edit"
+        style="@style/VideoCommon"
         android:src="@drawable/ic_play_arrow" />
 
     <SeekBar
-        android:id="@+id/seek_bar_movie_edit"
+        android:id="@+id/seek_bar_video_edit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
@@ -27,21 +27,21 @@
         android:progress="0" />
 
     <TextView
-        android:id="@+id/index_play_movie_edit"
-        style="@style/MovieCommon"
-        android:layout_width="@dimen/cort_movie_index_width"
+        android:id="@+id/index_play_video_edit"
+        style="@style/VideoCommon"
+        android:layout_width="@dimen/cort_video_index_width"
         android:layout_gravity="center_vertical"
         android:gravity="center"
-        android:text="@string/movie_index_default"
+        android:text="@string/video_index_default"
         android:textColor="@android:color/white" />
 
     <ImageView
-        android:id="@+id/save_movie_edit"
-        style="@style/MovieCommon"
+        android:id="@+id/save_video_edit"
+        style="@style/VideoCommon"
         android:src="@drawable/ic_save" />
 
     <ImageView
-        android:id="@+id/cancel_movie_edit"
-        style="@style/MovieCommon"
+        android:id="@+id/cancel_video_edit"
+        style="@style/VideoCommon"
         android:src="@drawable/ic_cancel" />
 </LinearLayout>

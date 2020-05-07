@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 @Database(
-    entities = [PlayerData::class, SavedMovieListData::class],
+    entities = [PlayerData::class, SavedVideoListData::class],
     version = 1,
     exportSchema = false
 )
@@ -14,7 +14,7 @@ abstract class PlayerDataDatabase : RoomDatabase() {
 
     abstract fun playerDao(): PlayerDao
 
-    abstract fun savedMovieListDao(): SavedMovieListDao
+    abstract fun savedVideoListDao(): SavedVideoListDao
 
     companion object {
         @Volatile

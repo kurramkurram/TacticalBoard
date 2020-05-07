@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ListView
+        android:id="@+id/video_folder_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@null" />
+
+    <TextView
+        android:id="@+id/video_folder_no_exist_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/video_list_no_exist_text_margin"
+        android:gravity="center"
+        android:text="@string/save_video_no_exist_text"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/video_list_no_exist_text_size"
+        android:visibility="gone" />
+</LinearLayout>

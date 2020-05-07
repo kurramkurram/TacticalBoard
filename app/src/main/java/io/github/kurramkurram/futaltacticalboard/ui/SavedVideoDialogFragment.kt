@@ -12,14 +12,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import io.github.kurramkurram.futaltacticalboard.R
 
-class SaveMovieDialogFragment : DialogFragment(), DialogInterface.OnClickListener {
+class SavedVideoDialogFragment : DialogFragment(), DialogInterface.OnClickListener {
 
     private lateinit var mEditTitle: EditText
 
     fun show(activity: Activity) {
         val host = activity as AppCompatActivity
         val manager = host.supportFragmentManager
-        super.show(manager, "SaveMovieDialogFragment")
+        super.show(manager, "SavedVideoDialogFragment")
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -27,10 +27,10 @@ class SaveMovieDialogFragment : DialogFragment(), DialogInterface.OnClickListene
         val builder = AlertDialog.Builder(activity)
         val inflater =
             activity!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val view = inflater.inflate(R.layout.dialog_fragment_save_movie, null)
+        val view = inflater.inflate(R.layout.dialog_fragment_save_video, null)
         mEditTitle = view!!.findViewById(R.id.save_title_edit_text)
 
-        val message = resources.getString(R.string.save_movie_dialog_title)
+        val message = resources.getString(R.string.save_video_dialog_title)
         val positive = resources.getString(android.R.string.ok)
         val negative = resources.getString(android.R.string.cancel)
         builder.setView(view)

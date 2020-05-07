@@ -46,7 +46,7 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
-    <style name="MovieCommon">
+    <style name="VideoCommon">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_weight">0</item>
@@ -54,7 +54,7 @@
         <item name="android:paddingTop">@dimen/cort_icon_padding_top</item>
     </style>
 
-    <style name="SavedMovieListStyle">
+    <style name="SavedVideoListStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:maxLines">1</item>
