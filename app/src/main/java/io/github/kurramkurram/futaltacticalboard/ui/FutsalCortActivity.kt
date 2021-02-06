@@ -7,19 +7,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.util.SparseArray
-import android.view.Gravity
-import android.view.View
-import android.view.WindowManager
+import android.view.*
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import io.github.kurramkurram.futaltacticalboard.ColorEnum
-import io.github.kurramkurram.futaltacticalboard.Player
-import io.github.kurramkurram.futaltacticalboard.Preference
-import io.github.kurramkurram.futaltacticalboard.R
+import io.github.kurramkurram.futaltacticalboard.*
 import io.github.kurramkurram.futaltacticalboard.db.PlayerData
 import io.github.kurramkurram.futaltacticalboard.db.PlayerDataDatabase
 import io.github.kurramkurram.futaltacticalboard.db.SavedVideoListData
@@ -30,7 +25,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
-    Player.OnAnimationCallback, SavedVideoDialogFragment.OnDialogResultCallback {
+    PlayerLayout.OnAnimationCallback, SavedVideoDialogFragment.OnDialogResultCallback {
 
     companion object {
         val PLAYER_RED_ARRAY = arrayOf(
@@ -53,11 +48,20 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
         const val KEY_BACKGROUND_COLOR = "key_background_color"
 
         private const val VIEW_SIZE = 10
+
+        const val PLAYER_INIT_POSITION_X = 20
+        const val PLAYER_INIT_POSITION_OFFSET = 150
+        const val PLAYER_INIT_POSITION_Y = 150
+
+
+        const val NAME_PREFIX_BLUE =
+            Preference.KEY_PLAYER_NAME_PREFIX + Preference.KEY_PLAYER_NAME_COLOR_BLUE
+        const val NAME_PREFIX_RED =
+            Preference.KEY_PLAYER_NAME_PREFIX + Preference.KEY_PLAYER_NAME_COLOR_RED
     }
 
-    private lateinit var mWindowManager: WindowManager
-    private var mPlayersBlue = arrayOfNulls<Player>(PLAYER_BLUE_ARRAY.size)
-    private var mPlayersRed = arrayOfNulls<Player>(PLAYER_RED_ARRAY.size)
+    private var mPlayersBlue = arrayOfNulls<PlayerLayout>(PLAYER_BLUE_ARRAY.size)
+    private var mPlayersRed = arrayOfNulls<PlayerLayout>(PLAYER_RED_ARRAY.size)
     private lateinit var mCortLayout: ConstraintLayout
     private lateinit var mDrawIcon: ImageView
     private lateinit var mDeleteIcon: ImageView
@@ -79,8 +83,6 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        mWindowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
 
         mCortLayout = findViewById(R.id.futsal_cort)
 
@@ -116,6 +118,8 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
         mSeekBar.isEnabled = false
 
         mVideoIndex = findViewById(R.id.index_play_video_edit)
+
+        initPlayer(applicationContext)
     }
 
     override fun onResume() {
@@ -145,52 +149,13 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
         background.setImageDrawable(drawable)
         drawableArray.recycle()
 
-        val namePrefixBlue =
-            Preference.KEY_PLAYER_NAME_PREFIX + Preference.KEY_PLAYER_NAME_COLOR_BLUE
-        val namePrefixRed =
-            Preference.KEY_PLAYER_NAME_PREFIX + Preference.KEY_PLAYER_NAME_COLOR_RED
-        if (mPlayersBlue[0] == null) {
-
-            for (i in PLAYER_BLUE_ARRAY.indices) {
-                val player = Player(
-                    applicationContext, i, PLAYER_BLUE_ARRAY[i],
-                    Preference.get(context, namePrefixBlue + (i + 1), ""),
-                    mWindowManager, arrayOf(150 * i + 20, 150), Gravity.TOP
-                )
-                player.setListener(this)
-                player.add()
-                mPlayersBlue[i] = player
-            }
-
-            for (i in PLAYER_RED_ARRAY.indices) {
-                val player = Player(
-                    applicationContext, i, PLAYER_RED_ARRAY[i],
-                    Preference.get(context, namePrefixRed + (i + 1), ""),
-                    mWindowManager, arrayOf(150 * i + 20, 0), Gravity.BOTTOM
-                )
-                player.setListener(this)
-                player.add()
-                mPlayersRed[i] = player
-            }
-        } else {
-            for ((i, p) in mPlayersBlue.withIndex()) {
-                p!!.setName(Preference.get(context, namePrefixBlue + (i + 1), ""))
-                p.add()
-            }
-            for ((i, p) in mPlayersRed.withIndex()) {
-                p!!.setName(Preference.get(context, namePrefixRed + (i + 1), ""))
-                p.add()
-            }
+        for ((i, p) in mPlayersBlue.withIndex()) {
+            val name = Preference.get(context, NAME_PREFIX_BLUE + (i + 1), "") as String
+            p!!.setName(name)
         }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        for (p in mPlayersBlue) {
-            p!!.remove()
-        }
-        for (p in mPlayersRed) {
-            p!!.remove()
+        for ((i, p) in mPlayersRed.withIndex()) {
+            val name = Preference.get(context, NAME_PREFIX_RED + (i + 1), "") as String
+            p!!.setName(name)
         }
     }
 
@@ -290,19 +255,43 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
         }
         mVideoLayout.visibility = View.GONE
         mIndex = 0
-        onDialogCallbackCommon()
     }
 
     override fun onNegativeButtonClicked() {
-        onDialogCallbackCommon()
+        // do nothing
     }
 
-    private fun onDialogCallbackCommon() {
-        for (player in mPlayersBlue) {
-            player!!.add()
+    private fun initPlayer(context: Context) {
+        for (i in PLAYER_BLUE_ARRAY.indices) {
+            val name = Preference.get(context, NAME_PREFIX_BLUE + (i + 1), "") as String
+            val player =
+                PlayerLayout(
+                    applicationContext,
+                    i,
+                    PLAYER_BLUE_ARRAY[i],
+                    ColorEnum.BLUE,
+                    name,
+                    PLAYER_INIT_POSITION_X + i * PLAYER_INIT_POSITION_OFFSET,
+                    PLAYER_INIT_POSITION_Y, this
+                )
+            player.add(mCortLayout)
+            mPlayersBlue[i] = player
         }
-        for (player in mPlayersRed) {
-            player!!.add()
+
+        for (i in PLAYER_RED_ARRAY.indices) {
+            val name = Preference.get(context, NAME_PREFIX_RED + (i + 1), "") as String
+            val player =
+                PlayerLayout(
+                    applicationContext,
+                    i,
+                    PLAYER_RED_ARRAY[i],
+                    ColorEnum.RED,
+                    name,
+                    PLAYER_INIT_POSITION_X + i * PLAYER_INIT_POSITION_OFFSET,
+                    PLAYER_INIT_POSITION_Y + PLAYER_INIT_POSITION_OFFSET, this
+                )
+            player.add(mCortLayout)
+            mPlayersRed[i] = player
         }
     }
 
@@ -337,15 +326,13 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
     private fun savePosition() {
         for (p in mPlayersBlue) {
             val playerData = PlayerData(
-                0, mGroupId, mIndex, ColorEnum.BLUE.id, p!!.mId, p.mName.text.toString(),
-                p.mParams.x, p.mParams.y
+                0, mGroupId, mIndex, ColorEnum.BLUE.id, p!!.mId, p.mName.text.toString(), p.x.toInt(), p.y.toInt()
             )
             mPlayerDataArray.add(playerData)
         }
         for (p in mPlayersRed) {
             val playerData = PlayerData(
-                0, mGroupId, mIndex, ColorEnum.RED.id, p!!.mId, p.mName.text.toString(),
-                p.mParams.x, p.mParams.y
+                0, mGroupId, mIndex, ColorEnum.RED.id, p!!.mId, p.mName.text.toString(), p.x.toInt(), p.y.toInt()
             )
             mPlayerDataArray.add(playerData)
         }
@@ -362,14 +349,14 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
                 ColorEnum.BLUE.id -> {
                     for (player in mPlayersBlue) {
                         if (player!!.mId == playerId) {
-                            player.put(arrayOf(x, y))
+                            player.putPoint(arrayOf(x, y))
                         }
                     }
                 }
                 ColorEnum.RED.id -> {
                     for (player in mPlayersRed) {
                         if (player!!.mId == playerId) {
-                            player.put(arrayOf(x, y))
+                            player.putPoint(arrayOf(x, y))
                         }
                     }
                 }
@@ -387,12 +374,6 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
 
     private fun saveVideo() {
         SavedVideoDialogFragment().show(this)
-        for (player in mPlayersBlue) {
-            player!!.remove()
-        }
-        for (player in mPlayersRed) {
-            player!!.remove()
-        }
     }
 
     private fun cancelVideo() {
