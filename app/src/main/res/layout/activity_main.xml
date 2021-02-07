@@ -17,48 +17,48 @@
 
     <ImageView
         android:id="@+id/futsal_cort_setting"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/cort_icon_padding"
-        android:paddingTop="@dimen/cort_icon_padding_top"
+        android:layout_width="@dimen/cort_icon_wh"
+        android:layout_height="@dimen/cort_icon_wh"
+        android:layout_margin="@dimen/cort_icon_margin"
+        android:layout_marginEnd="@dimen/cort_icon_margin_end"
         android:src="@drawable/ic_settings"
         app:layout_constraintRight_toRightOf="@id/futsal_cort_background"
         app:layout_constraintTop_toTopOf="@id/futsal_cort_background" />
 
     <ImageView
         android:id="@+id/futsal_cort_create_video"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/cort_icon_padding"
-        android:paddingTop="@dimen/cort_icon_padding_top"
+        android:layout_width="@dimen/cort_icon_wh"
+        android:layout_height="@dimen/cort_icon_wh"
+        android:layout_margin="@dimen/cort_icon_margin"
+        android:layout_marginEnd="@dimen/cort_icon_margin_end"
         android:src="@drawable/ic_movie_creation"
         app:layout_constraintRight_toLeftOf="@+id/futsal_cort_setting"
         app:layout_constraintTop_toTopOf="@id/futsal_cort_background" />
 
     <ImageView
         android:id="@+id/futsal_cort_video_folder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/cort_icon_padding"
-        android:paddingTop="@dimen/cort_icon_padding_top"
+        android:layout_width="@dimen/cort_icon_wh"
+        android:layout_height="@dimen/cort_icon_wh"
+        android:layout_margin="@dimen/cort_icon_margin"
+        android:layout_marginEnd="@dimen/cort_icon_margin_end"
         android:src="@drawable/ic_camera_roll"
         app:layout_constraintRight_toLeftOf="@+id/futsal_cort_create_video"
         app:layout_constraintTop_toTopOf="@id/futsal_cort_background" />
 
     <ImageView
         android:id="@+id/futsal_cort_draw_line"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/cort_icon_padding"
+        android:layout_width="@dimen/cort_icon_wh"
+        android:layout_height="@dimen/cort_icon_wh"
+        android:layout_margin="@dimen/cort_icon_margin"
         android:src="@drawable/ic_mode_edit"
         app:layout_constraintBottom_toBottomOf="@id/futsal_cort_background"
         app:layout_constraintRight_toRightOf="@id/futsal_cort_background" />
 
     <ImageView
         android:id="@+id/futsal_cort_delete_line"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/cort_icon_padding"
+        android:layout_width="@dimen/cort_icon_wh"
+        android:layout_height="@dimen/cort_icon_wh"
+        android:layout_margin="@dimen/cort_icon_margin"
         android:src="@drawable/ic_delete"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/futsal_cort_background"

@@ -4,16 +4,25 @@
 
     <dimen name="cort_icon_padding">3dp</dimen>
     <dimen name="cort_icon_padding_top">10dp</dimen>
-    <dimen name="cort_video_icon_margin">10dp</dimen>
+    <dimen name="cort_icon_margin">10dp</dimen>
+    <dimen name="cort_icon_margin_end">5dp</dimen>
+    <dimen name="cort_icon_margin_top">10dp</dimen>
+    <dimen name="cort_icon_wh">25dp</dimen>
     <dimen name="cort_video_layout_elevation">4dp</dimen>
     <dimen name="cort_video_index_width">36dp</dimen>
+    <dimen name="cort_create_video_margin">5dp</dimen>
 
+    <dimen name="video_list_padding">5dp</dimen>
     <dimen name="video_list_item_margin_bottom">3dp</dimen>
-    <dimen name="video_list_item_margin">10dp</dimen>
+    <dimen name="video_list_text_item_margin_bottom">15dp</dimen>
+    <dimen name="video_list_item_margin">30dp</dimen>
     <dimen name="video_list_item_date_margin_top">3dp</dimen>
 
     <dimen name="video_list_item_text_size">25sp</dimen>
     <dimen name="video_list_item_date_text_size">15sp</dimen>
+
+    <dimen name="video_list_divider_height">1dp</dimen>
+    <dimen name="video_list_divider_radius">1dp</dimen>
 
     <dimen name="video_list_no_exist_text_size">30sp</dimen>
     <dimen name="video_list_no_exist_text_margin">10dp</dimen>

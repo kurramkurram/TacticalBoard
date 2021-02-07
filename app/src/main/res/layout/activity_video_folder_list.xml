@@ -8,7 +8,9 @@
         android:id="@+id/video_folder_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@null" />
+        android:padding="@dimen/video_list_padding"
+        android:dividerHeight="@dimen/video_list_divider_height"
+        android:divider="@drawable/video_divider" />
 
     <TextView
         android:id="@+id/video_folder_no_exist_text"

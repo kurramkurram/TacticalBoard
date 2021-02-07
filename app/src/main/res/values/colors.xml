@@ -12,4 +12,6 @@
 
     <color name="tactical_board_default_text_color">#000000</color>
     <color name="tactical_board_button_default">#C0C0C0</color>
+
+    <color name="video_list_divider_color" >#C0C0C0</color>
 </resources>

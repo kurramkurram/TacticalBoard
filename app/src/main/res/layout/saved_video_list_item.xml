@@ -20,6 +20,6 @@
         android:layout_marginStart="@dimen/video_list_item_margin"
         android:layout_marginTop="@dimen/video_list_item_date_margin_top"
         android:layout_marginEnd="@dimen/video_list_item_margin"
-        android:layout_marginBottom="@dimen/video_list_item_margin"
+        android:layout_marginBottom="@dimen/video_list_text_item_margin_bottom"
         android:textSize="@dimen/video_list_item_date_text_size" />
 </LinearLayout>

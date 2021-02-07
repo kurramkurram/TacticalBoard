@@ -47,11 +47,11 @@
     </style>
 
     <style name="VideoCommon">
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">@dimen/cort_icon_wh</item>
+        <item name="android:layout_width">@dimen/cort_icon_wh</item>
         <item name="android:layout_weight">0</item>
-        <item name="android:padding">@dimen/cort_icon_padding</item>
-        <item name="android:paddingTop">@dimen/cort_icon_padding_top</item>
+        <item name="android:layout_margin">@dimen/cort_create_video_margin</item>
+        <item name="android:layout_marginEnd">@dimen/cort_icon_margin_end</item>
     </style>
 
     <style name="SavedVideoListStyle">
