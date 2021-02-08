@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="app_title_text_size">36sp</dimen>
+    <dimen name="app_title_text_margin_bottom">200dp</dimen>
+
+    <dimen name="app_start_text_size">25sp</dimen>
+    <dimen name="app_start_text_margin_bottom">180dp</dimen>
+
     <dimen name="player_name_text_size">15sp</dimen>
 
     <dimen name="cort_icon_padding">3dp</dimen>

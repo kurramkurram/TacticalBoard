@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">FutalTacticalBoard</string>
 
+    <string name="app_start">Start</string>
+
     <string name="video_index_default">0/0</string>
 
     <string name="setting_cort_edit_cort_color_title">CORT COLOR : </string>

@@ -3,14 +3,13 @@ package io.github.kurramkurram.futaltacticalboard
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
+import io.github.kurramkurram.futaltacticalboard.ui.animation.PlayerAnimation
 
 class PlayerLayout : LinearLayout, OnPlayerTouchListener.OnUpdateCallbackListener,
     PlayerAnimation.OnAnimationCallback {
