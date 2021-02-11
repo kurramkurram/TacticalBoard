@@ -101,7 +101,7 @@ class PlayerLayout : LinearLayout, OnPlayerTouchListener.OnUpdateCallbackListene
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
         super.onLayout(changed, l, t, r, b)
-        
+
         // Visibilityの切り替えによるViewの更新で初期位置に戻ることを回避
         if (mX != x && mY != y && !mIsMoving) {
             val dx = left + mDx
@@ -109,9 +109,6 @@ class PlayerLayout : LinearLayout, OnPlayerTouchListener.OnUpdateCallbackListene
             layout(dx, dy, dx + width, dy + height)
         }
         mIsMoving = false
-    }
-
-    fun storePosition() {
         mX = x
         mY = y
     }
