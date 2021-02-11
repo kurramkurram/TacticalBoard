@@ -182,6 +182,7 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     override fun onClick(v: View?) {
+        storePosition()
         when (v!!.id) {
             R.id.futsal_cort_setting -> {
                 startSetting()
@@ -329,15 +330,38 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
     private fun savePosition() {
         for (p in mPlayersBlue) {
             val playerData = PlayerData(
-                0, mGroupId, mIndex, ColorEnum.BLUE.id, p!!.mId, p.mName.text.toString(), p.x.toInt(), p.y.toInt()
+                0,
+                mGroupId,
+                mIndex,
+                ColorEnum.BLUE.id,
+                p!!.mId,
+                p.mName.text.toString(),
+                p.x.toInt(),
+                p.y.toInt()
             )
             mPlayerDataArray.add(playerData)
         }
         for (p in mPlayersRed) {
             val playerData = PlayerData(
-                0, mGroupId, mIndex, ColorEnum.RED.id, p!!.mId, p.mName.text.toString(), p.x.toInt(), p.y.toInt()
+                0,
+                mGroupId,
+                mIndex,
+                ColorEnum.RED.id,
+                p!!.mId,
+                p.mName.text.toString(),
+                p.x.toInt(),
+                p.y.toInt()
             )
             mPlayerDataArray.add(playerData)
+        }
+    }
+
+    private fun storePosition() {
+        for (player in mPlayersBlue) {
+            player!!.storePosition()
+        }
+        for (player in mPlayersRed) {
+            player!!.storePosition()
         }
     }
 

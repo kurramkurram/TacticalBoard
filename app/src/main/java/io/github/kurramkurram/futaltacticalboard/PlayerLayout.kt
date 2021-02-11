@@ -15,7 +15,7 @@ class PlayerLayout : LinearLayout, OnPlayerTouchListener.OnUpdateCallbackListene
     PlayerAnimation.OnAnimationCallback {
 
     companion object {
-        const val TAG = "Player1"
+        const val TAG = "PlayerLayout"
     }
 
     lateinit var mName: TextView
@@ -24,6 +24,15 @@ class PlayerLayout : LinearLayout, OnPlayerTouchListener.OnUpdateCallbackListene
     private lateinit var mCallback: OnAnimationCallback
     private val mAnimation = PlayerAnimation()
     private lateinit var mColorEnum: ColorEnum
+
+    private var mX = 0.0F
+    private var mY = 0.0F
+
+    private var mDx = 0 // 初期位置からの移動量
+    private var mDy = 0 // 初期位置からの移動量
+
+    // 操作中かどうか. true：操作中
+    private var mIsMoving = false
 
     constructor(context: Context) : super(context) {}
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {}
@@ -58,6 +67,9 @@ class PlayerLayout : LinearLayout, OnPlayerTouchListener.OnUpdateCallbackListene
         x = initX.toFloat()
         y = initY.toFloat()
 
+        mX = x
+        mY = y
+
         mCallback = callback
         mAnimation.setListener(this)
 
@@ -87,11 +99,32 @@ class PlayerLayout : LinearLayout, OnPlayerTouchListener.OnUpdateCallbackListene
         mAnimation.next()
     }
 
+    override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
+        super.onLayout(changed, l, t, r, b)
+        
+        // Visibilityの切り替えによるViewの更新で初期位置に戻ることを回避
+        if (mX != x && mY != y && !mIsMoving) {
+            val dx = left + mDx
+            val dy = top + mDy
+            layout(dx, dy, dx + width, dy + height)
+        }
+        mIsMoving = false
+    }
+
+    fun storePosition() {
+        mX = x
+        mY = y
+    }
+
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         return true
     }
 
     override fun update(deltaPoint: Array<Int>) {
+        mIsMoving = true
+        mDx += deltaPoint[0]
+        mDy += deltaPoint[1]
+
         val dx = left + deltaPoint[0]
         val dy = top + deltaPoint[1]
         layout(dx, dy, dx + width, dy + height)
