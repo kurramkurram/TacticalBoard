@@ -2,6 +2,7 @@ package io.github.kurramkurram.futaltacticalboard
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
@@ -47,7 +48,7 @@ class PlayerLayout : LinearLayout, OnPlayerTouchListener.OnUpdateCallbackListene
     constructor(
         context: Context,
         id: Int,
-        resourceId: Int,
+        drawable: Drawable?,
         colorEnum: ColorEnum,
         name: String,
         initX: Int,
@@ -57,7 +58,7 @@ class PlayerLayout : LinearLayout, OnPlayerTouchListener.OnUpdateCallbackListene
         View.inflate(context, R.layout.player_layout, this)
         mId = id
 
-        findViewById<ImageView>(R.id.player_icon).setImageDrawable(context.getDrawable(resourceId))
+        findViewById<ImageView>(R.id.player_icon).setImageDrawable(drawable)
 
         mColorEnum = colorEnum
 

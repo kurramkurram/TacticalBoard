@@ -63,8 +63,8 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
             Preference.KEY_PLAYER_NAME_PREFIX + Preference.KEY_PLAYER_NAME_COLOR_RED
     }
 
-    private var mPlayersBlue = arrayOfNulls<PlayerLayout>(PLAYER_BLUE_ARRAY.size)
-    private var mPlayersRed = arrayOfNulls<PlayerLayout>(PLAYER_RED_ARRAY.size)
+    private val mPlayersBlue = mutableListOf<PlayerLayout?>()
+    private val mPlayersRed = mutableListOf<PlayerLayout?>()
     private lateinit var mCortLayout: ConstraintLayout
     private lateinit var mDrawIcon: ImageView
     private lateinit var mDeleteIcon: ImageView
@@ -164,8 +164,8 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
 
     override fun onDestroy() {
         super.onDestroy()
-        mPlayersBlue = arrayOfNulls(PLAYER_BLUE_ARRAY.size)
-        mPlayersRed = arrayOfNulls(PLAYER_RED_ARRAY.size)
+        mPlayersBlue.clear()
+        mPlayersRed.clear()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -265,37 +265,41 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     private fun initPlayer(context: Context) {
-        for (i in PLAYER_BLUE_ARRAY.indices) {
+        val playerBlueArray = resources.obtainTypedArray(R.array.player_blue)
+        for (i in 0..playerBlueArray.length()) {
             val name = Preference.get(context, NAME_PREFIX_BLUE + (i + 1), "") as String
             val player =
                 PlayerLayout(
                     applicationContext,
                     i,
-                    PLAYER_BLUE_ARRAY[i],
+                    playerBlueArray.getDrawable(i),
                     ColorEnum.BLUE,
                     name,
                     PLAYER_INIT_POSITION_X + i * PLAYER_INIT_POSITION_OFFSET,
                     PLAYER_INIT_POSITION_Y, this
                 )
             player.add(mCortLayout)
-            mPlayersBlue[i] = player
+            mPlayersBlue.add(player)
         }
+        playerBlueArray.recycle()
 
-        for (i in PLAYER_RED_ARRAY.indices) {
+        val playerRedArray = resources.obtainTypedArray(R.array.player_red)
+        for (i in 0..playerRedArray.length()) {
             val name = Preference.get(context, NAME_PREFIX_RED + (i + 1), "") as String
             val player =
                 PlayerLayout(
                     applicationContext,
                     i,
-                    PLAYER_RED_ARRAY[i],
+                    playerRedArray.getDrawable(i),
                     ColorEnum.RED,
                     name,
                     PLAYER_INIT_POSITION_X + i * PLAYER_INIT_POSITION_OFFSET,
                     PLAYER_INIT_POSITION_Y + PLAYER_INIT_POSITION_OFFSET, this
                 )
             player.add(mCortLayout)
-            mPlayersRed[i] = player
+            mPlayersRed.add(player)
         }
+        playerRedArray.recycle()
     }
 
     private fun startSetting() {

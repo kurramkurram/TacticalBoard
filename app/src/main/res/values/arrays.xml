@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <array name="player_blue">
+        <item>@drawable/player_blue_1</item>
+        <item>@drawable/player_blue_2</item>
+        <item>@drawable/player_blue_3</item>
+        <item>@drawable/player_blue_4</item>
+        <item>@drawable/player_blue_5</item>
+    </array>
+
+    <array name="player_red">
+        <item>@drawable/player_red_1</item>
+        <item>@drawable/player_red_2</item>
+        <item>@drawable/player_red_3</item>
+        <item>@drawable/player_red_4</item>
+        <item>@drawable/player_red_5</item>
+    </array>
+
     <array name="setting_background_array">
         <item>@drawable/background</item>
         <item>@drawable/background_gray</item>

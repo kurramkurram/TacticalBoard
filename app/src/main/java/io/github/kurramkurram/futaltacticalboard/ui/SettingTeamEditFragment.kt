@@ -1,6 +1,7 @@
 package io.github.kurramkurram.futaltacticalboard.ui
 
 import android.annotation.SuppressLint
+import android.content.res.TypedArray
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -83,14 +84,12 @@ class SettingTeamEditFragment : Fragment(), View.OnClickListener {
             R.id.edit_player_blue -> {
                 mTeamBlue.isEnabled = !mTeamBlue.isEnabled
                 mTeamRed.isEnabled = true
-                array = FutsalCortActivity.PLAYER_BLUE_ARRAY
-                editPlayerName(array)
+                editBluePlayerName()
             }
             R.id.edit_player_red -> {
                 mTeamRed.isEnabled = !mTeamRed.isEnabled
                 mTeamBlue.isEnabled = true
-                array = FutsalCortActivity.PLAYER_RED_ARRAY
-                editPlayerName(array)
+                editRedPlayerName()
             }
             R.id.player_edit_reset_button -> {
                 for (e in mPlayerEditTexts) {
@@ -116,16 +115,23 @@ class SettingTeamEditFragment : Fragment(), View.OnClickListener {
         }
     }
 
-    private fun editPlayerName(array: Array<Int>) {
-        var beforeName =
-            Preference.KEY_PLAYER_NAME_PREFIX + Preference.KEY_PLAYER_NAME_COLOR_BLUE
-        var afterName =
-            Preference.KEY_PLAYER_NAME_PREFIX + Preference.KEY_PLAYER_NAME_COLOR_RED
-        if (FutsalCortActivity.PLAYER_BLUE_ARRAY.contentEquals(array)) {
-            beforeName = Preference.KEY_PLAYER_NAME_PREFIX + Preference.KEY_PLAYER_NAME_COLOR_RED
-            afterName = Preference.KEY_PLAYER_NAME_PREFIX + Preference.KEY_PLAYER_NAME_COLOR_BLUE
-        }
+    private fun editBluePlayerName() {
+        val beforeName = Preference.KEY_PLAYER_NAME_PREFIX + Preference.KEY_PLAYER_NAME_COLOR_RED
+        val afterName = Preference.KEY_PLAYER_NAME_PREFIX + Preference.KEY_PLAYER_NAME_COLOR_BLUE
+        val playerBlueArray = resources.obtainTypedArray(R.array.player_blue)
+        editPlayerName(beforeName, afterName, playerBlueArray)
+        playerBlueArray.recycle()
+    }
 
+    private fun editRedPlayerName() {
+        val beforeName = Preference.KEY_PLAYER_NAME_PREFIX + Preference.KEY_PLAYER_NAME_COLOR_BLUE
+        val afterName = Preference.KEY_PLAYER_NAME_PREFIX + Preference.KEY_PLAYER_NAME_COLOR_RED
+        val playerRedArray = resources.obtainTypedArray(R.array.player_red)
+        editPlayerName(beforeName, afterName, playerRedArray)
+        playerRedArray.recycle()
+    }
+
+    private fun editPlayerName(beforeName: String, afterName: String, array: TypedArray) {
         for ((count, name) in mPlayerEditTexts.withIndex()) {
             Preference.set(context!!, beforeName + (count + 1), name!!.text.toString())
         }
@@ -135,7 +141,7 @@ class SettingTeamEditFragment : Fragment(), View.OnClickListener {
         }
 
         for ((count, image) in mPlayerIcons.withIndex()) {
-            image!!.setImageResource(array[count])
+            image!!.setImageDrawable(array.getDrawable(count))
             val name = Preference.get(context!!, afterName + (count + 1), "")
             mPlayerEditTexts[count]!!.setText(name)
         }
