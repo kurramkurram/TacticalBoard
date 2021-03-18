@@ -31,21 +31,6 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
     PlayerLayout.OnAnimationCallback, SavedVideoDialogFragment.OnDialogResultCallback {
 
     companion object {
-        val PLAYER_RED_ARRAY = arrayOf(
-            R.drawable.player_red_1,
-            R.drawable.player_red_2,
-            R.drawable.player_red_3,
-            R.drawable.player_red_4,
-            R.drawable.player_red_5
-        )
-        val PLAYER_BLUE_ARRAY = arrayOf(
-            R.drawable.player_blue_1,
-            R.drawable.player_blue_2,
-            R.drawable.player_blue_3,
-            R.drawable.player_blue_4,
-            R.drawable.player_blue_5
-        )
-
         private const val TAG = "FutsalCortActivity"
         private const val VIDEO_FOLDER_LIST_REQUEST = 0
         const val KEY_BACKGROUND_COLOR = "key_background_color"
