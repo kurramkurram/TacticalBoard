@@ -154,11 +154,11 @@ class SettingTeamEditFragment : Fragment(), View.OnClickListener {
             colorName = Preference.KEY_PLAYER_NAME_COLOR_RED
         }
 
-        for ((count, name) in mPlayerEditTexts.withIndex()) {
+        mPlayerEditTexts.withIndex().forEach {
             Preference.set(
                 context!!,
-                Preference.KEY_PLAYER_NAME_PREFIX + colorName + (count + 1),
-                name!!.text.toString()
+                Preference.KEY_PLAYER_NAME_PREFIX + colorName + (it.index + 1),
+                it.value!!.text.toString()
             )
         }
     }

@@ -137,13 +137,14 @@ class FutsalCortActivity : AppCompatActivity(), View.OnClickListener,
         background.setImageDrawable(drawable)
         drawableArray.recycle()
 
-        for ((i, p) in mPlayersBlue.withIndex()) {
-            val name = Preference.get(context, NAME_PREFIX_BLUE + (i + 1), "") as String
-            p!!.setName(name)
+        mPlayersBlue.withIndex().forEach {
+            val name = Preference.get(context, NAME_PREFIX_BLUE + (it.index + 1), "") as String
+            it.value!!.setName(name)
         }
-        for ((i, p) in mPlayersRed.withIndex()) {
-            val name = Preference.get(context, NAME_PREFIX_RED + (i + 1), "") as String
-            p!!.setName(name)
+
+        mPlayersRed.withIndex().forEach {
+            val name = Preference.get(context, NAME_PREFIX_RED + (it.index + 1), "") as String
+            it.value!!.setName(name)
         }
     }
 
