@@ -79,7 +79,6 @@ class SettingTeamEditFragment : Fragment(), View.OnClickListener {
 
     @SuppressLint("ShowToast")
     override fun onClick(v: View?) {
-        val array: Array<Int>
         when (v!!.id) {
             R.id.edit_player_blue -> {
                 mTeamBlue.isEnabled = !mTeamBlue.isEnabled
@@ -132,18 +131,18 @@ class SettingTeamEditFragment : Fragment(), View.OnClickListener {
     }
 
     private fun editPlayerName(beforeName: String, afterName: String, array: TypedArray) {
-        for ((count, name) in mPlayerEditTexts.withIndex()) {
-            Preference.set(context!!, beforeName + (count + 1), name!!.text.toString())
+        mPlayerEditTexts.withIndex().forEach {
+            Preference.set(context!!, beforeName + (it.index + 1), it.value!!.text.toString())
         }
 
         for (e in mPlayerEditTexts) {
             e!!.editableText.clear()
         }
 
-        for ((count, image) in mPlayerIcons.withIndex()) {
-            image!!.setImageDrawable(array.getDrawable(count))
-            val name = Preference.get(context!!, afterName + (count + 1), "")
-            mPlayerEditTexts[count]!!.setText(name)
+        mPlayerIcons.withIndex().forEach {
+            it.value!!.setImageDrawable(array.getDrawable(it.index))
+            val name = Preference.get(context!!, afterName + (it.index + 1), "")
+            mPlayerEditTexts[it.index]!!.setText(name)
         }
 
         mPlayerEditLayout.visibility = View.VISIBLE
