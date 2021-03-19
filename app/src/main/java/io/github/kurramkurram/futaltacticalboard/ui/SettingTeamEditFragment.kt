@@ -3,6 +3,7 @@ package io.github.kurramkurram.futaltacticalboard.ui
 import android.annotation.SuppressLint
 import android.content.res.TypedArray
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -132,7 +133,13 @@ class SettingTeamEditFragment : Fragment(), View.OnClickListener {
 
     private fun editPlayerName(beforeName: String, afterName: String, array: TypedArray) {
         mPlayerEditTexts.withIndex().forEach {
-            Preference.set(context!!, beforeName + (it.index + 1), it.value!!.text.toString())
+            val inputName = it.value!!.text.toString()
+            val name = if ("" == inputName) {
+                Preference.get(context!!, beforeName + (it.index + 1), "")
+            } else {
+                inputName
+            }
+            Preference.set(context!!, beforeName + (it.index + 1), name!!)
         }
 
         for (e in mPlayerEditTexts) {
@@ -142,6 +149,10 @@ class SettingTeamEditFragment : Fragment(), View.OnClickListener {
         mPlayerIcons.withIndex().forEach {
             it.value!!.setImageDrawable(array.getDrawable(it.index))
             val name = Preference.get(context!!, afterName + (it.index + 1), "")
+            Log.d(
+                "SettingTeamEditFragment",
+                "#editPlayer afterName = $afterName index =  ${it.index} name = $name"
+            )
             mPlayerEditTexts[it.index]!!.setText(name)
         }
 
